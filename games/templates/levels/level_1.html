@@ -8,14 +8,13 @@
         --gradient-angle: 50deg;
         --angle: 0deg;
     }
-    .game-container {
-        height: 90vh;
-        padding-top: 2%;
-    }
     .game-body {
         display: flex;
         flex-direction: column;
-        height: 98%;
+        height: 100%;
+    }
+    .pick {
+        cursor: pointer;
     }
     .pick,
     .place {
@@ -78,12 +77,6 @@
         }
     }
     .img-holder {
-        /*background: conic-gradient(
-            rgba(255, 0, 0, 0.3),
-            rgba(0, 255, 0, 0.3),
-            rgba(0, 0, 255, 0.3),
-            rgba(255, 255, 0, 0.3)
-        );*/
         aspect-ratio: 1;
         position: relative;
         margin: 2%;
@@ -125,191 +118,279 @@
     .put {
         z-index: 1;
     }
+    .game-tutorial {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+        background-color: rgba(255, 255, 255, 0.9);
+    }
+    .tutorial-animation {
+        position: relative;
+    }
+    .demo-fig {
+        height: 147.46px;
+        width: 147.46px;
+    }
+    .demo {
+        position: relative;
+        z-index: 3;
+        top: 0em;
+        animation: star-animation 2s linear infinite forwards;
+    }
+    @keyframes star-animation {
+        70%,
+        100% {
+            top: 9.4em;
+        }
+    }
+    .bi-hand-index-thumb-fill {
+        position: absolute;
+        font-size: 3em;
+        color: tan;
+        z-index: 3;
+        animation: hand-gesture 2s linear infinite forwards;
+    }
+    @keyframes hand-gesture {
+        0% {
+            top: 25%;
+            left: 40%;
+        }
+        70%,
+        100% {
+            top: 75%;
+            left: 40%;
+        }
+    }
+    .start-btn {
+        font-family: cursive;
+        font-size: 2em;
+        color: white;
+        cursor: pointer;
+    }
 </style>
 {% endblock %}
 <!-- Game Body -->
 {% block gamebody %}
-<div class="game-container container col-8">
-    <div class="game-body">
-        <div class="pick">
-            <div class="shape-box">
-                <div class="img-holder-parent">
-                    <div class="img-holder">
-                        <svg
-                            class="shapes grab star"
-                            height="100%"
-                            viewBox="0 0 16 16"
+<div class="game-body">
+    <div class="pick">
+        <div class="shape-box">
+            <div class="img-holder-parent">
+                <div class="img-holder">
+                    <svg
+                        class="shapes grab star"
+                        height="100%"
+                        viewBox="0 0 16 16"
+                    >
+                        <foreignObject
+                            width="16"
+                            height="16"
+                            clip-path="url(#star-clip)"
                         >
-                            <foreignObject
-                                width="16"
-                                height="16"
-                                clip-path="url(#star-clip)"
-                            >
-                                <div class="star-gradient"></div>
-                            </foreignObject>
-                        </svg>
-                    </div>
-                </div>
-                <div class="img-holder-parent">
-                    <div class="img-holder">
-                        <svg
-                            class="shapes grab circle"
-                            height="100%"
-                            viewBox="0 0 16 16"
-                        >
-                            <foreignObject
-                                width="16"
-                                height="16"
-                                clip-path="url(#circle-clip)"
-                            >
-                                <div class="square-gradient"></div>
-                            </foreignObject>
-                        </svg>
-                    </div>
+                            <div class="star-gradient"></div>
+                        </foreignObject>
+                    </svg>
                 </div>
             </div>
-            <div class="shape-box">
-                <div class="img-holder-parent">
-                    <div class="img-holder">
-                        <svg
-                            class="shapes grab plus"
-                            height="100%"
-                            viewBox="0 0 16 16"
+            <div class="img-holder-parent">
+                <div class="img-holder">
+                    <svg
+                        class="shapes grab circle"
+                        height="100%"
+                        viewBox="0 0 16 16"
+                    >
+                        <foreignObject
+                            width="16"
+                            height="16"
+                            clip-path="url(#circle-clip)"
                         >
-                            <foreignObject
-                                width="16"
-                                height="16"
-                                clip-path="url(#plus-clip)"
-                            >
-                                <div class="square-gradient"></div>
-                            </foreignObject>
-                        </svg>
-                    </div>
-                </div>
-                <div class="img-holder-parent">
-                    <div class="img-holder">
-                        <svg
-                            class="shapes grab square"
-                            height="100%"
-                            viewBox="0 0 16 16"
-                        >
-                            <foreignObject
-                                width="16"
-                                height="16"
-                                clip-path="url(#square-clip)"
-                            >
-                                <div class="square-gradient"></div>
-                            </foreignObject>
-                        </svg>
-                    </div>
+                            <div class="square-gradient"></div>
+                        </foreignObject>
+                    </svg>
                 </div>
             </div>
         </div>
-        <div class="place">
-            <div class="shape-box">
-                <div class="img-holder-parent">
-                    <div class="img-holder">
-                        <svg
-                            class="shapes put square"
-                            height="100%"
-                            viewBox="0 0 16 16"
+        <div class="shape-box">
+            <div class="img-holder-parent">
+                <div class="img-holder">
+                    <svg
+                        class="shapes grab plus"
+                        height="100%"
+                        viewBox="0 0 16 16"
+                    >
+                        <foreignObject
+                            width="16"
+                            height="16"
+                            clip-path="url(#plus-clip)"
                         >
-                            <clipPath id="square-clip">
-                                <path
-                                    d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z"
-                                />
-                            </clipPath>
-                            <foreignObject
-                                width="16"
-                                height="16"
-                                clip-path="url(#square-clip)"
-                            >
-                                <div class="square-gradient cavity"></div>
-                            </foreignObject>
-                        </svg>
-                    </div>
-                </div>
-                <div class="img-holder-parent">
-                    <div class="img-holder">
-                        <svg
-                            class="shapes put plus"
-                            height="100%"
-                            viewBox="0 0 16 16"
-                        >
-                            <clipPath id="plus-clip">
-                                <path
-                                    d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"
-                                />
-                            </clipPath>
-                            <foreignObject
-                                width="16"
-                                height="16"
-                                clip-path="url(#plus-clip)"
-                            >
-                                <div class="square-gradient cavity"></div>
-                            </foreignObject>
-                        </svg>
-                    </div>
+                            <div class="square-gradient"></div>
+                        </foreignObject>
+                    </svg>
                 </div>
             </div>
-            <div class="shape-box">
-                <div class="img-holder-parent">
-                    <div class="img-holder">
-                        <svg
-                            class="shapes put circle"
-                            height="100%"
-                            viewBox="0 0 16 16"
+            <div class="img-holder-parent">
+                <div class="img-holder">
+                    <svg
+                        class="shapes grab square"
+                        height="100%"
+                        viewBox="0 0 16 16"
+                    >
+                        <foreignObject
+                            width="16"
+                            height="16"
+                            clip-path="url(#square-clip)"
                         >
-                            <clipPath id="circle-clip">
-                                <circle cx="8" cy="8" r="8" />
-                            </clipPath>
-                            <foreignObject
-                                width="16"
-                                height="16"
-                                clip-path="url(#circle-clip)"
-                            >
-                                <div class="square-gradient cavity"></div>
-                            </foreignObject>
-                        </svg>
-                    </div>
+                            <div class="square-gradient"></div>
+                        </foreignObject>
+                    </svg>
                 </div>
-                <div class="img-holder-parent">
-                    <div class="img-holder">
-                        <svg
-                            class="shapes put star"
-                            height="100%"
-                            viewBox="0 0 16 16"
+            </div>
+        </div>
+    </div>
+    <div class="place">
+        <div class="shape-box">
+            <div class="img-holder-parent">
+                <div class="img-holder">
+                    <svg
+                        class="shapes put square"
+                        height="100%"
+                        viewBox="0 0 16 16"
+                    >
+                        <clipPath id="square-clip">
+                            <path
+                                d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z"
+                            />
+                        </clipPath>
+                        <foreignObject
+                            width="16"
+                            height="16"
+                            clip-path="url(#square-clip)"
                         >
-                            <clipPath id="star-clip">
-                                <path
-                                    d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
-                                />
-                            </clipPath>
-                            <foreignObject
-                                width="16"
-                                height="16"
-                                clip-path="url(#star-clip)"
-                            >
-                                <div class="star-gradient cavity"></div>
-                            </foreignObject>
-                        </svg>
-                    </div>
+                            <div class="square-gradient cavity"></div>
+                        </foreignObject>
+                    </svg>
+                </div>
+            </div>
+            <div class="img-holder-parent">
+                <div class="img-holder">
+                    <svg
+                        class="shapes put plus"
+                        height="100%"
+                        viewBox="0 0 16 16"
+                    >
+                        <clipPath id="plus-clip">
+                            <path
+                                d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"
+                            />
+                        </clipPath>
+                        <foreignObject
+                            width="16"
+                            height="16"
+                            clip-path="url(#plus-clip)"
+                        >
+                            <div class="square-gradient cavity"></div>
+                        </foreignObject>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="shape-box">
+            <div class="img-holder-parent">
+                <div class="img-holder">
+                    <svg
+                        class="shapes put circle"
+                        height="100%"
+                        viewBox="0 0 16 16"
+                    >
+                        <clipPath id="circle-clip">
+                            <circle cx="8" cy="8" r="8" />
+                        </clipPath>
+                        <foreignObject
+                            width="16"
+                            height="16"
+                            clip-path="url(#circle-clip)"
+                        >
+                            <div class="square-gradient cavity"></div>
+                        </foreignObject>
+                    </svg>
+                </div>
+            </div>
+            <div class="img-holder-parent">
+                <div class="img-holder">
+                    <svg
+                        class="shapes put star"
+                        height="100%"
+                        viewBox="0 0 16 16"
+                    >
+                        <clipPath id="star-clip">
+                            <path
+                                d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
+                            />
+                        </clipPath>
+                        <foreignObject
+                            width="16"
+                            height="16"
+                            clip-path="url(#star-clip)"
+                        >
+                            <div class="star-gradient cavity"></div>
+                        </foreignObject>
+                    </svg>
                 </div>
             </div>
         </div>
     </div>
 </div>
-{% endblock %} {% block gamescript %}
+<div class="game-tutorial">
+    <div class="tutorial-animation mx-auto col-md-2">
+        <div class="img-holder demo demo-fig col-2 mx-auto">
+            <svg class="shapes grab star" height="100%" viewBox="0 0 16 16">
+                <foreignObject
+                    width="16"
+                    height="16"
+                    clip-path="url(#star-clip)"
+                >
+                    <div class="star-gradient"></div>
+                </foreignObject>
+            </svg>
+        </div>
+        <div class="img-holder demo-fig col-2 mx-auto">
+            <svg class="shapes grab star" height="100%" viewBox="0 0 16 16">
+                <foreignObject
+                    width="16"
+                    height="16"
+                    clip-path="url(#star-clip)"
+                >
+                    <div class="star-gradient cavity"></div>
+                </foreignObject>
+            </svg>
+        </div>
+        <i class="bi bi-hand-index-thumb-fill"></i>
+    </div>
+    <div
+        class="start-btn bg-primary text-center w-50 rounded-pill mx-auto mt-5"
+    >
+        Start
+    </div>
+</div>
+{% endblock %}
+<!-- Game Script -->
+{% block gamescript %}
 <script>
     const grab = document.querySelectorAll(".grab");
     const put = [...document.querySelectorAll(".put")];
     const place = document.querySelector(".place");
+    var shapeState = {};
+    var progress = 100;
     const putCordinates = {};
-    for (i of put)
+    for (i of put) {
         putCordinates[i.classList[2]] = {
             x: i.getBoundingClientRect().x,
             y: i.getBoundingClientRect().y,
         };
+        shapeState[i.classList[2]] = false;
+    }
     const area = document.querySelector(".game-body").getBoundingClientRect();
     const boundary = {
         t: area.top,
@@ -336,32 +417,10 @@
                 e.clientX,
                 e.clientY,
             ];
-            if (
-                (shape.getBoundingClientRect().top >= boundary.t) &
-                (shape.getBoundingClientRect().bottom <= boundary.b)
-            ) {
-                shape.style.top = -position.e - position.a + "px";
-                position.e += position.b;
-            } else {
-                if (shape.getBoundingClientRect().top < boundary.t)
-                    position.e -= 1;
-                else if (shape.getBoundingClientRect().bottom > boundary.b)
-                    position.e += 1;
-                shape.style.top = -position.e + "px";
-            }
-            if (
-                (shape.getBoundingClientRect().left >= boundary.l) &
-                (shape.getBoundingClientRect().right <= boundary.r)
-            ) {
-                shape.style.left = -position.f - position.b + "px";
-                position.f += position.a;
-            } else {
-                if (shape.getBoundingClientRect().left < boundary.l)
-                    position.f -= 1;
-                else if (shape.getBoundingClientRect().right > boundary.r)
-                    position.f += 1;
-                shape.style.left = -position.f + "px";
-            }
+            shape.style.top = -position.e - position.a + "px";
+            position.e += position.b;
+            shape.style.left = -position.f - position.b + "px";
+            position.f += position.a;
             grabber(shape);
             function grabber(shape) {
                 const xCord = shape.getBoundingClientRect().x;
@@ -376,14 +435,36 @@
                         .querySelector("." + shape.classList[2])
                         .querySelector("div")
                         .classList.remove("cavity");
+                    shapeState[shape.classList[2]] = true;
+                    progress -= 25;
+                    if (progress == 0) Celibrate();
                 }
             }
         }
         function closeDragElement() {
             document.onmouseup = null;
             document.onmousemove = null;
+            if (!shapeState[shape.classList[2]]) {
+                shape.style.top = "0px";
+                shape.style.left = "0px";
+                [
+                    position.a,
+                    position.b,
+                    position.c,
+                    position.d,
+                    position.e,
+                    position.f,
+                ] = [0, 0, 0, 0, 0, 0];
+            }
         }
     }
     grab.forEach((x) => x.addEventListener("mousedown", drag(x)));
+
+    // Tutorial Script
+    const tutorial = document.querySelector(".game-tutorial");
+    const start_btn = tutorial.querySelector(".start-btn");
+    start_btn.addEventListener("click", () => {
+        tutorial.classList.add("visually-hidden");
+    });
 </script>
 {% endblock %}

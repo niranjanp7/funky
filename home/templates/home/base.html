@@ -4,7 +4,10 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="description" content="We describe why games are important factor in kid's growth. The Games which are good for enhancing the thinking capability are here.">
+        <meta
+            name="description"
+            content="We describe why games are important factor in kid's growth. The Games which are good for enhancing the thinking capability are here."
+        />
         <title>{% block pagetitle %} {% endblock %}</title>
         <!-- for development 
         <link
@@ -29,9 +32,12 @@
             href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
         />
         <style>
-            #login_signup_btn{
+            #login_signup_btn {
                 color: #0a52bd;
                 background-color: white;
+            }
+            nav.navbar {
+                z-index: 100;
             }
         </style>
         {% block pagestyle %} {% endblock %}
@@ -179,8 +185,9 @@
                                 <label
                                     for="validationDefault01"
                                     class="form-label"
-                                    >First Name</label
                                 >
+                                    First Name
+                                </label>
                                 <input
                                     type="text"
                                     class="form-control"
@@ -192,8 +199,9 @@
                                 <label
                                     for="validationDefault02"
                                     class="form-label"
-                                    >Last Name</label
                                 >
+                                    Last Name
+                                </label>
                                 <input
                                     type="text"
                                     class="form-control"
@@ -205,8 +213,9 @@
                                 <label
                                     for="validationDefaultUsername"
                                     class="form-label"
-                                    >Username</label
                                 >
+                                    Username
+                                </label>
                                 <div class="input-group">
                                     <input
                                         type="text"
@@ -221,8 +230,9 @@
                                 <label
                                     for="validationDefault03"
                                     class="form-label"
-                                    >Phone No.</label
                                 >
+                                    Phone No.
+                                </label>
                                 <input
                                     type="tel"
                                     class="form-control"

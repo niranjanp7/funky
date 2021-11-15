@@ -6,7 +6,13 @@
 {% block pagetitle %}Game{% endblock %}
 
 <!-- Page Style -->
-{% block pagestyle %}
+{% block pagestyle %} {% if game_play %}
+<style>
+    body {
+        overflow: hidden;
+    }
+</style>
+{% endif %}
 <style>
     ol > li > a {
         text-decoration: none;
@@ -20,7 +26,121 @@
     }
     ol {
         font-size: 1.5em;
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        font-family: cursive;
+    }
+    .game-container {
+        height: 92.2vh;
+        padding-top: 2%;
+    }
+    .celibrate {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        background-color: rgba(255, 255, 255, 0.8);
+    }
+    .hide-celibration {
+        z-index: -1;
+        display: none;
+    }
+    .congrats-dialog {
+        width: 30%;
+        height: 30%;
+        background-color: rgba(255, 255, 255, 0.5);
+        border-radius: 1em;
+        transform: scale(0);
+    }
+    .congrats-dialog > div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: cursive;
+    }
+    .congrats-dialog > .cup {
+        width: 100%;
+        height: 50%;
+        font-size: 4em;
+        animation: cup-animation 2s linear infinite;
+    }
+    @keyframes cup-animation {
+        50% {
+            font-size: 5em;
+        }
+    }
+    .congrats-dialog > .greeting {
+        width: 100%;
+        height: 30%;
+        font-size: 1.5em;
+        color: #007bff;
+    }
+    .congrats-dialog > .next-game {
+        height: 20%;
+        border-bottom-left-radius: inherit;
+        border-bottom-right-radius: inherit;
+    }
+    .congrats-dialog > .next-game > .next-game {
+        font-size: 1.6em;
+        color: white;
+    }
+    .show-greeting {
+        animation: greeting-popup 0.5s cubic-bezier(0.68, 1.5, 0.73, 1.5) 0.5s
+            forwards;
+    }
+    @keyframes greeting-popup {
+        100% {
+            transform: scale(1);
+        }
+    }
+    .level-tree {
+        top: 7.8%;
+        max-height: 92.2%;
+        overflow-y: auto;
+        text-align: center;
+        user-select: none;
+    }
+    .level-link-container {
+        display: inline-block;
+        text-align: center;
+        z-index: 1;
+        font-size: 2em;
+        font-family: cursive;
+        background-color: cadetblue;
+        width: 1.5em;
+        border-radius: 50%;
+    }
+    .level-link {
+        text-decoration: none;
+        color: white;
+    }
+    .level-link.isDisabled {
+        pointer-events: none;
+    }
+    .level-conector {
+        background-color: chartreuse;
+        display: block;
+        height: 3em;
+        width: 0.2em;
+        z-index: -1;
+    }
+    .level-disappear {
+        position: relative;
+    }
+    .end-cover {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 15em;
+        width: 100%;
+        background-image: linear-gradient(
+            to bottom,
+            rgba(255, 255, 255, 0.5),
+            rgba(255, 255, 255, 1)
+        );
     }
 </style>
 {% block gamestyle %} {% endblock %} {% endblock %}
@@ -29,16 +149,86 @@
 {% block pagebody %}
 
 <!-- If game level index is entered -->
-{% if game_play %} {% block gamebody %} {% endblock %}
-
-<!-- If only visiting the game page -->
-{% else %}
-<ol>
+<div class="col-md-2 position-absolute level-tree px-md-4 pt-2">
     {% for i in game %}
-    <li><a href="{{ i.id }}">{{ i.game_name }}</a></li>
+    <div class="level-number">
+        <div class="level-link-container {% if i.id == game_id %}bg-success{% endif %}">
+            {% if game_play %}{% if i.id == game_id %}
+            <a href="" class="level-link isDisabled">
+                {% else %}
+                <a href="../{{ i.id }}" class="level-link">
+                {% endif %} {{ i.id }}
+            </a>
+            {% else %}
+            <a href="{{ i.id }}" class="level-link">{{ i.id }}</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="level-conector mx-auto"></div>
     {% endfor %}
-</ol>
-{% endif %} {% endblock %}
+    <div class="level-number">
+        <div class="level-link-container">
+            <a href="#" class="level-link">&nbsp;</a>
+        </div>
+    </div>
+    <div class="level-conector mx-auto"></div>
+    <div class="level-number">
+        <div class="level-link-container">
+            <a href="#" class="level-link">&nbsp;</a>
+        </div>
+    </div>
+    <div class="level-conector mx-auto"></div>
+    <div class="end-cover"></div>
+</div>
+<div class="game-container container col-8 position-relative">
+    {% if game_play %} {% block gamebody %} {% endblock %}
+    <div class="celibrate hide-celibration">
+        <div class="congrats-dialog shadow">
+            <div class="cup">🏆</div>
+            <div class="greeting">WoW, You did it!</div>
+            <div class="next-game bg-primary">
+                {% if next_game %}
+                <a
+                    href="../{{ next_game }}"
+                    class="next-game text-decoration-none d-block"
+                >
+                    Let's Go
+                    <i class="bi bi-arrow-bar-right"></i>
+                </a>
+                {% else %}
+                <a
+                    href="javascript:void(0)"
+                    class="next-game text-decoration-none d-block"
+                >
+                    That's all for now!
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <!-- If only visiting the game page -->
+    {% else %}
+    <ol>
+        {% for i in game %}
+        <li>
+            <a href="{{ i.id }}">{{ i.game_name }}</a>
+            {{ i.game_description }}
+        </li>
+        {% endfor %}
+    </ol>
+    {% endif %}
+</div>
+{% endblock %}
 
 <!-- Page Script -->
-{% block pagescript %} {% block gamescript %} {% endblock %} {% endblock %}
+{% block pagescript %}
+<script>
+    function Celibrate() {
+        mainbody = document.querySelector(".celibrate");
+        mainbody.classList.remove("hide-celibration");
+        mainbody
+            .querySelector(".congrats-dialog")
+            .classList.add("show-greeting");
+    }
+</script>
+{% block gamescript %} {% endblock %} {% endblock %}

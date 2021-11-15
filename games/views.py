@@ -9,6 +9,11 @@ def game_list(request):
 
 def game(request, game_id):
     try:
+        Game.objects.get(id=game_id + 1)
+        next_game = game_id + 1
+    except Game.DoesNotExist:
+        next_game = 0
+    try:
         g = Game.objects.get(id=game_id)
     except Game.DoesNotExist:
         raise Http404(">>>Game Level not created!<<<")
@@ -17,7 +22,14 @@ def game(request, game_id):
         render(
             request,
             "levels/" + str(g.html_file),
-            {"game_play": True, "game_id": g.id, "game_name": g.game_name, "html_file": g.html_file},
+            {
+                "game_play": True,
+                "next_game": next_game,
+                "game_id": g.id,
+                "game_name": g.game_name,
+                "html_file": g.html_file,
+                "game": Game.objects.all(),
+            },
         ),
     ]
     return response[1]

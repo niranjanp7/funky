@@ -1,0 +1,197 @@
+{% extends "games/index.html" %}
+<!-- Game Title -->
+{% block pagetitle %}{{ game_id }}. {{ game_name }}{% endblock %}
+<!-- Game Style -->
+{% block gamestyle %}
+<style>
+    .game-body > .game-options > div:hover {
+        background-color: rgba(100, 198, 255, 0.2);
+    }
+    .game-tutorial {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+        background-color: rgba(255, 255, 255, 0.9);
+    }
+    .bi-hand-index-thumb-fill {
+        position: absolute;
+        font-size: 3em;
+        color: tan;
+        z-index: 3;
+        animation: hand-gesture 2s linear infinite forwards;
+    }
+    @keyframes hand-gesture {
+        0% {
+            top: 25%;
+            left: 40%;
+        }
+        70%,
+        100% {
+            top: 50%;
+            left: 20%;
+        }
+    }
+    .start-btn {
+        font-family: cursive;
+        font-size: 2em;
+        color: white;
+        cursor: pointer;
+    }
+    .animal-image {
+        width: 345px;
+        height: auto;
+    }
+    .game-options > div {
+        font-size: 2em;
+        font-family: cursive;
+        background-color: rgba(255, 255, 255, 0.4);
+        cursor: pointer;
+    }
+    .demo-option {
+        animation: option-hover 2s infinite forwards;
+    }
+    @keyframes option-hover {
+        0%,
+        59.9% {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+        60%,
+        69.9% {
+            background-color: rgba(100, 198, 255, 0.2);
+            color: black;
+        }
+        70%,
+        100% {
+            background-color: rgba(100, 198, 255, 0.2);
+            color: lime;
+        }
+    }
+    .answer-mark {
+        display: inline-block;
+    }
+    .option-text {
+        display: inline-block;
+        width: calc(100% - 42px);
+    }
+</style>
+{% endblock %}
+<!-- Game Body -->
+{% block gamebody %} {% load static %}
+<div class="game-body">
+    <figure class="demo_img col-12 row">
+        <img
+            src="{% static 'level_2/game.png' %}"
+            alt="Animal-image"
+            class="animal-image mx-auto"
+        />
+    </figure>
+    <div class="col-md-12 row game-options">
+        <div class="col-md-5 shadow my-2 ms-md-auto me-md-auto rounded-pill">
+            <i class="bi bi-square answer-mark"></i>
+            <div class="option-text mx-auto text-center" id="cow">Cow</div>
+        </div>
+        <div class="col-md-5 shadow my-2 me-md-auto rounded-pill">
+            <i class="bi bi-square answer-mark"></i>
+            <div class="option-text mx-auto text-center" id="rabit">Rabit</div>
+        </div>
+        <div class="col-md-5 shadow my-2 ms-md-auto me-md-auto rounded-pill">
+            <i class="bi bi-square answer-mark"></i>
+            <div class="option-text mx-auto text-center" id="elephant">
+                Elephant
+            </div>
+        </div>
+        <div class="col-md-5 shadow my-2 me-md-auto rounded-pill">
+            <i class="bi bi-square answer-mark"></i>
+            <div class="option-text mx-auto text-center" id="giraffe">
+                Giraffe
+            </div>
+        </div>
+    </div>
+</div>
+<div class="game-tutorial">
+    <figure class="demo_img col-12 row">
+        <img
+            src="{% static 'level_2/demo.jpg' %}"
+            alt="Animal-image"
+            class="animal-image mx-auto"
+        />
+    </figure>
+    <div class="col-md-12 row game-options">
+        <div
+            class="col-md-5 shadow my-2 ms-md-auto me-md-auto rounded-pill demo-option"
+        >
+            <i class="bi bi-square answer-mark demo-right-answer"></i>
+            <div class="option-text mx-auto text-center">Cow</div>
+        </div>
+        <div class="col-md-5 shadow my-2 me-md-auto rounded-pill">
+            <i class="bi bi-square answer-mark"></i>
+            <div class="option-text mx-auto text-center">Rabit</div>
+        </div>
+        <div class="col-md-5 shadow my-2 ms-md-auto me-md-auto rounded-pill">
+            <i class="bi bi-square answer-mark"></i>
+            <div class="option-text mx-auto text-center">Elephant</div>
+        </div>
+        <div class="col-md-5 shadow my-2 me-md-auto rounded-pill">
+            <i class="bi bi-square answer-mark"></i>
+            <div class="option-text mx-auto text-center">Giraffe</div>
+        </div>
+    </div>
+    <i class="bi bi-hand-index-thumb-fill"></i>
+    <div
+        class="start-btn bg-primary text-center w-50 rounded-pill mx-auto mt-5"
+    >
+        Start
+    </div>
+</div>
+{% endblock %}
+<!-- Game Script -->
+{% block gamescript %}
+<script>
+    const ans = "giraffe";
+    const game_body = document.querySelector(".game-body");
+    const options = game_body.querySelectorAll(".rounded-pill");
+    options.forEach((x) =>
+        x.addEventListener("click", () => {
+            if (x.querySelector(".option-text").id == ans) {
+                x.style.color = "lime";
+                let icon = x.querySelector("i");
+                icon.classList.remove("bi-square");
+                icon.classList.add("bi-check-square");
+                setTimeout(Celibrate, 500);
+            } else {
+                x.style.color = "red";
+                let icon = x.querySelector("i");
+                icon.classList.remove("bi-square");
+                icon.classList.add("bi-x-square");
+            }
+        })
+    );
+    // Tutorial Script
+    const tutorial = document.querySelector(".game-tutorial");
+    const start_btn = tutorial.querySelector(".start-btn");
+    start_btn.addEventListener("click", () => {
+        tutorial.classList.add("visually-hidden");
+        clearInterval();
+        clearTimeout();
+    });
+    function DemoMarkAnswer() {
+        const right_check = tutorial.querySelector(".demo-right-answer");
+        right_check.classList.remove("bi-square");
+        right_check.classList.add("bi-check-square");
+    }
+    function DemoNotMarkAnswer() {
+        const right_check = tutorial.querySelector(".demo-right-answer");
+        right_check.classList.remove("bi-check-square");
+        right_check.classList.add("bi-square");
+    }
+    setTimeout(DemoMarkAnswer, 1400);
+    setTimeout(DemoNotMarkAnswer, 2000);
+    setInterval(function () {
+        setTimeout(DemoMarkAnswer, 1400);
+        setTimeout(DemoNotMarkAnswer, 2000);
+    }, 2000);
+</script>
+{% endblock %}
