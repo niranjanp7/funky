@@ -6,31 +6,161 @@
 {% block pagetitle %}Game{% endblock %}
 
 <!-- Page Style -->
-{% block pagestyle %} {% if game_play %}
+{% block pagestyle %}
 <style>
-    body {
-        overflow: hidden;
-    }
-</style>
-{% endif %}
-<style>
-    ol > li > a {
-        text-decoration: none;
-        color: darkslategray;
-        font-weight: 600;
-        transition-duration: 0.8s;
-    }
-    ol > li > a:hover {
-        color: blue;
-        transition-duration: 0.8s;
-    }
-    ol {
+    ul{
+        list-style: none;
         font-size: 1.5em;
         font-family: cursive;
+    }
+    .level-name-link{
+        color: rgb(255, 0, 255);
+        text-decoration: none;
+        font-size: 1.2em;
+    }
+    .game-info-tile{
+        min-height: 5em;
+        background-image:linear-gradient(to left,rgba(13, 253, 193, 0.7), rgba(0,0,0,0));
+    }
+    .game-text-info{
+        --game-tile-background:0%;
+        background-image: linear-gradient(-45deg, rgba(0,0,0,0) var(--game-tile-background), var(--game-tile-background), rgba(0,0,0,0) var(--game-tile-background), rgba(255, 255, 255, 0.7) calc(var(--game-tile-background) + 5%), rgba(0,0,0,0) calc(var(--game-tile-background) + 10%), rgba(255, 255, 255, 0.7) calc(var(--game-tile-background) + 15%), rgba(0,0,0,0) calc(var(--game-tile-background) + 20%), calc(var(--game-tile-background) + 20%), rgba(0,0,0,0));
+        animation: slide-background 5s linear infinite forwards;
+    }
+    @keyframes slide-background {
+        0%{
+            --game-tile-background:100%;
+        }
+        60%,
+        100%{
+            --game-tile-background:-20%;
+        }
+    }
+    .game-text-info:hover{
+        background-color: rgba(0, 0, 0, 0.1);
+        background-image: linear-gradient(-65deg, rgba(0,0,0,0) var(--game-tile-background), var(--game-tile-background),  rgba(255, 255, 255, 0.3) calc(var(--game-tile-background) + 10%), calc(var(--game-tile-background) + 10%), rgba(0,0,0,0) calc(90% - var(--game-tile-background)), calc(90% - var(--game-tile-background)), rgba(255, 255, 255, 0.3) calc(100% - var(--game-tile-background)), calc(100% - var(--game-tile-background)), rgba(0,0,0,0));
+        animation: slide-background-hover 0.5s linear forwards;
+    }
+    @keyframes slide-background-hover {
+        0%{
+            --game-tile-background:-10%;
+        }
+        60%,
+        100%{
+            --game-tile-background:39%;
+        }
+    }
+    @property --game-tile-background {
+        syntax: "<percentage>";
+        inherits: false;
+        initial-value:0%;
     }
     .game-container {
         height: 92.2vh;
         padding-top: 2%;
+    }
+</style>
+{% if game_play %}
+<style>
+    body{
+        overflow: hidden;
+    }
+    .level-tree {
+        top: 7.8%;
+        max-height: 92.2%;
+        overflow-y: auto;
+        text-align: center;
+        user-select: none;
+        z-index: 3;
+        overflow-x: hidden;
+    }
+    .back-to-games{
+        z-index: 2;
+        border-radius: 0.5em;
+    }
+    .level-link-container {
+        display: inline-block;
+        text-align: center;
+        z-index: 1;
+        background-color: var(--bs-primary);
+        width: 3.6em;
+        height: 3.6em;
+        border: 0.3em double lime;
+        border-radius: 50%;
+    }
+    .level-link-container:hover {
+        --radius-radial: 30%;
+        --radius-width: 20%;
+        --radius-op: rgba(255, 255, 255, 0.7);
+        background-image: radial-gradient(
+            rgba(0, 0, 0, 0) var(--radius-radial),
+            rgba(0, 0, 0, 0) var(--radius-radial),
+            var(--radius-op),
+            rgba(0, 0, 0, 0)
+                calc(var(--radius-radial) + var(--radius-width)),
+            calc(var(--radius-radial) + var(--radius-width)),
+            rgba(0, 0, 0, 0)
+        );
+        animation: water-wave 3s linear infinite forwards;
+    }
+    @property --radius-radial {
+        syntax: "<percentage>";
+        inherits: false;
+        initial-value: 0%;
+    }
+    @property --radius-width {
+        syntax: "<percentage>";
+        inherits: false;
+        initial-value: 0%;
+    }
+    @property --radius-op {
+        syntax: "<color>";
+        inherits: false;
+        initial-value: rgba(0, 0, 0, 0);
+    }
+    @keyframes water-wave {
+        0% {
+            --radius-radial: -40%;
+            --radius-width: 40%;
+            --radius-op: rgba(255,255,255,1);
+        }
+        80%,
+        100% {
+            --radius-radial: 100%;
+            --radius-width: 0%;
+            --radius-op: rgba(255,255,255,0);
+        }
+    }
+    .level-link {
+        text-decoration: none;
+        color: white;
+        font-size: 2em;
+        font-family: cursive;
+    }
+    .level-link:hover{
+        color: lime;
+    }
+    .level-link.isDisabled {
+        pointer-events: none;
+    }
+    .level-conector {
+        background-color: chartreuse;
+        display: block;
+        height: 3em;
+        width: 0.2em;
+        z-index: -1;
+    }
+    .end-cover {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 16.2em;
+        width: 100%;
+        background-image: linear-gradient(
+            to bottom,
+            rgba(255, 255, 255, 0.5),
+            rgba(255, 255, 255, 1)
+        );
     }
     .celibrate {
         position: absolute;
@@ -96,72 +226,30 @@
             transform: scale(1);
         }
     }
-    .level-tree {
-        top: 7.8%;
-        max-height: 92.2%;
-        overflow-y: auto;
-        text-align: center;
-        user-select: none;
-    }
-    .level-link-container {
-        display: inline-block;
-        text-align: center;
-        z-index: 1;
-        font-size: 2em;
-        font-family: cursive;
-        background-color: cadetblue;
-        width: 1.5em;
-        border-radius: 50%;
-    }
-    .level-link {
-        text-decoration: none;
-        color: white;
-    }
-    .level-link.isDisabled {
-        pointer-events: none;
-    }
-    .level-conector {
-        background-color: chartreuse;
-        display: block;
-        height: 3em;
-        width: 0.2em;
-        z-index: -1;
-    }
-    .level-disappear {
-        position: relative;
-    }
-    .end-cover {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        height: 15em;
-        width: 100%;
-        background-image: linear-gradient(
-            to bottom,
-            rgba(255, 255, 255, 0.5),
-            rgba(255, 255, 255, 1)
-        );
-    }
 </style>
+{% endif %}
 {% block gamestyle %} {% endblock %} {% endblock %}
 
 <!-- Page Body -->
 {% block pagebody %}
 
 <!-- If game level index is entered -->
-<div class="col-md-2 position-absolute level-tree px-md-4 pt-2">
+{% if game_play %}
+<div class="col-2 position-absolute level-tree px-md-4 pt-2">
+    <div class="back-to-games sticky-top bg-primary text-light shadow mb-2">
+        <a href="../" class="level-link">
+            <i class="bi bi-arrow-bar-left"></i>
+            Games</a>
+    </div>
     {% for i in game %}
     <div class="level-number">
         <div class="level-link-container {% if i.id == game_id %}bg-success{% endif %}">
-            {% if game_play %}{% if i.id == game_id %}
+            {% if i.id == game_id %}
             <a href="" class="level-link isDisabled">
                 {% else %}
                 <a href="../{{ i.id }}" class="level-link">
                 {% endif %} {{ i.id }}
             </a>
-            {% else %}
-            <a href="{{ i.id }}" class="level-link">{{ i.id }}</a>
-            {% endif %}
         </div>
     </div>
     <div class="level-conector mx-auto"></div>
@@ -180,7 +268,8 @@
     <div class="level-conector mx-auto"></div>
     <div class="end-cover"></div>
 </div>
-<div class="game-container container col-8 position-relative">
+{% endif %}
+<div class="game-container container col-md-8 position-relative">
     {% if game_play %} {% block gamebody %} {% endblock %}
     <div class="celibrate hide-celibration">
         <div class="congrats-dialog shadow">
@@ -208,20 +297,33 @@
     </div>
     <!-- If only visiting the game page -->
     {% else %}
-    <ol>
+    <ul>
         {% for i in game %}
+        {% load static %}
+        {% static "" as baseUrl %}
         <li>
-            <a href="{{ i.id }}">{{ i.game_name }}</a>
-            {{ i.game_description }}
+            <div class="game-info-tile col-12 row mb-2 rounded">
+                <div class="game-img-thumb col-3 p-0 rounded">
+                    <img src="{{ baseUrl }}/level_{{ i.id }}/example.jpg" alt="{{ i.id }} {{ i.game_name }}" style="height: 100%; width: 100%;" class="rounded">
+                </div>
+                <div class="game-text-info col-9 rounded">
+                    <div class="game-title-link">
+                        <a href="{{ i.id }}" class="level-name-link">{{ i.id }}. {{ i.game_name }}</a>
+                    </div>
+                    <div class="game-description">
+                        {{ i.game_description }}</div>
+                </div>
+            </div>
         </li>
         {% endfor %}
-    </ol>
+    </ul>
     {% endif %}
 </div>
 {% endblock %}
 
 <!-- Page Script -->
 {% block pagescript %}
+{% if game_play %}
 <script>
     function Celibrate() {
         mainbody = document.querySelector(".celibrate");
@@ -231,4 +333,5 @@
             .classList.add("show-greeting");
     }
 </script>
+{% endif %}
 {% block gamescript %} {% endblock %} {% endblock %}
