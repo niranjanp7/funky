@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     "home.apps.HomeConfig",
     "games.apps.GamesConfig",
+    "userauth.apps.UserauthConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

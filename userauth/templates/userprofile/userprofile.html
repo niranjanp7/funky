@@ -1,0 +1,79 @@
+{% extends "home/base.html" %}
+
+<!-- This Page Content -->
+
+<!-- Page Title -->
+{% block pagetitle %} {% if user.is_authenticated %} {{ user.first_name }} {{ user.last_name }} {% else %} User Account {% endif %} {% endblock %}
+
+<!-- Page Style -->
+{% block pagestyle %}
+<style>
+    .dp {
+        width: 100%;
+        border-radius: 1em;
+        box-shadow: 0.5ch 0.5ch 0.4ch 0.1ch rgba(0, 0, 0, 0.4),
+            -0.5ch -0.5ch 0.4ch 0.1ch rgba(255, 255, 255, 0.8);
+    }
+    .user-name {
+        font-size: 1.5em;
+        font-weight: bold;
+    }
+    .user-description {
+        font-size: 1.2em;
+    }
+    .user-profile {
+        background-color: rgba(0, 0, 0, 0.2);
+        box-shadow: 0.5ch 0.5ch 0.4ch 0.1ch rgba(0, 0, 0, 0.4) inset,
+            -0.5ch -0.5ch 0.4ch 0.1ch rgba(255, 255, 255, 0.8) inset;
+        border-radius: 1em;
+    }
+    .success-messages {
+        background-color: rgb(0, 255, 0);
+        width: 100%;
+        text-align: center;
+        color: white;
+        font-family: cursive;
+        font-size: 2em;
+    }
+    .error-messages {
+        background-color: red;
+    }
+</style>
+{% endblock %}
+<!-- Page Body -->
+{% block pagebody %} {% load static %}
+<div class="col-md-6 mx-auto mt-3 p-0 row">
+    {% if user.is_authenticated %}
+    <div class="user-profile col-12 m-0 py-3 row">
+        <div class="user-pic col-3">
+            <img class="dp" src="{% static 'userauth/avatar.png' %}" />
+        </div>
+        <div class="user-detail col-9">
+            <div class="user-name col-12">
+                {{ user.first_name }} {{ user.last_name }}
+            </div>
+            <div class="user-description col-12">
+                <b>Username:</b>
+                {{ request.user }}
+            </div>
+            <form
+                action="http://127.0.0.1:8000/signup/userlogout"
+                method="post"
+            >
+                {% csrf_token %}
+                <button type="submit" class="bg-danger">LogOut</button>
+            </form>
+        </div>
+    </div>
+    {% else %} {% if messages %}
+    <div class="success-messages">
+        {% for message in messages %} {{ message }} {% endfor %}
+    </div>
+    {% else %}
+    <div class="success-messages error-messages">
+        LOGIN FIRST {% endif %}{% endif %}
+    </div>
+</div>
+{% endblock %}
+<!-- Page Script -->
+{% block pagescript %}{% endblock %}

@@ -8,10 +8,13 @@
 <!-- Page Style -->
 {% block pagestyle %}
 <style>
-    ul{
+    .game-list-items{
         list-style: none;
         font-size: 1.5em;
         font-family: cursive;
+    }
+    .game-list-items:first-child{
+        padding-top: 1em;
     }
     .level-name-link{
         color: rgb(255, 0, 255);
@@ -57,13 +60,15 @@
     }
     .game-container {
         height: 92.2vh;
-        padding-top: 2%;
     }
 </style>
 {% if game_play %}
 <style>
     body{
         overflow: hidden;
+    }
+    .scrolToTopBtn{
+        display:none;
     }
     .level-tree {
         top: 7.8%;
@@ -254,19 +259,21 @@
     </div>
     <div class="level-conector mx-auto"></div>
     {% endfor %}
-    <div class="level-number">
-        <div class="level-link-container">
-            <a href="#" class="level-link">&nbsp;</a>
+    <div class="level-disappear position-relative">
+        <div class="level-number">
+            <div class="level-link-container">
+                <a href="#" class="level-link">&nbsp;</a>
+            </div>
         </div>
-    </div>
-    <div class="level-conector mx-auto"></div>
-    <div class="level-number">
-        <div class="level-link-container">
-            <a href="#" class="level-link">&nbsp;</a>
+        <div class="level-conector mx-auto"></div>
+        <div class="level-number">
+            <div class="level-link-container">
+                <a href="#" class="level-link">&nbsp;</a>
+            </div>
         </div>
+        <div class="level-conector mx-auto"></div>
+        <div class="end-cover"></div>
     </div>
-    <div class="level-conector mx-auto"></div>
-    <div class="end-cover"></div>
 </div>
 {% endif %}
 <div class="game-container container col-md-8 position-relative">
@@ -301,10 +308,10 @@
         {% for i in game %}
         {% load static %}
         {% static "" as baseUrl %}
-        <li>
+        <li class="game-list-items">
             <div class="game-info-tile col-12 row mb-2 rounded">
                 <div class="game-img-thumb col-3 p-0 rounded">
-                    <img src="{{ baseUrl }}/level_{{ i.id }}/example.jpg" alt="{{ i.id }} {{ i.game_name }}" style="height: 100%; width: 100%;" class="rounded">
+                    <img src="{{ baseUrl }}level_{{ i.id }}/example.jpg" alt="{{ i.id }} {{ i.game_name }}" style="height: 100%; width: 100%;" class="rounded">
                 </div>
                 <div class="game-text-info col-9 rounded">
                     <div class="game-title-link">

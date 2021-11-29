@@ -1,0 +1,239 @@
+{% extends "games/index.html" %}
+<!-- Game Title -->
+{% block pagetitle %}{{ game_id }}. {{ game_name }}{% endblock %}
+<!-- Game Style -->
+{% block gamestyle %}
+<style>
+    .game-body {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+    }
+    .game-tutorial {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+        background-color: rgba(255, 255, 255, 1);
+    }
+    .question {
+        font-size: 3em;
+        font-family: cursive;
+        border-bottom: 0.2em solid lime;
+    }
+    .operator {
+        font-size: 5em;
+    }
+    .num,
+    .apple,
+    .operator {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .bi-hand-index-thumb-fill {
+        position: absolute;
+        font-size: 3em;
+        color: tan;
+        z-index: 3;
+        animation: hand-gesture 2s linear infinite forwards;
+    }
+    @keyframes hand-gesture {
+        0% {
+            top: 25%;
+            left: 40%;
+        }
+        70%,
+        100% {
+            top: 55%;
+            left: 60%;
+        }
+    }
+    .start-btn {
+        font-family: cursive;
+        font-size: 2em;
+        color: white;
+        cursor: pointer;
+    }
+    .game-options > div {
+        font-size: 2em;
+        font-family: cursive;
+        background-color: rgba(255, 255, 255, 0.4);
+        cursor: pointer;
+    }
+    .demo-option {
+        animation: option-hover 2s infinite forwards;
+    }
+    @keyframes option-hover {
+        0%,
+        59.9% {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+        60%,
+        69.9% {
+            background-color: rgba(100, 198, 255, 0.2);
+            color: black;
+        }
+        70%,
+        100% {
+            background-color: rgba(100, 198, 255, 0.2);
+            color: lime;
+        }
+    }
+    .answer-mark {
+        display: inline-block;
+    }
+    .option-text {
+        display: inline-block;
+        width: calc(100% - 42px);
+    }
+</style>
+{% endblock %}
+<!-- Game Body -->
+{% block gamebody %} {% load static %}
+<div class="game-body">
+    <div class="question col-12 row">
+        <div class="left-part col-5">
+            <div class="num">4</div>
+            <div class="apple">
+                <img src="{% static 'level_4/apple.png' %}" alt="🍎" />
+                <img src="{% static 'level_4/apple.png' %}" alt="🍎" />
+                <img src="{% static 'level_4/apple.png' %}" alt="🍎" />
+                <img src="{% static 'level_4/apple.png' %}" alt="🍎" />
+            </div>
+        </div>
+        <div class="operator col-2">
+            <i class="bi bi-plus"></i>
+        </div>
+        <div class="right-part col-5">
+            <div class="num">3</div>
+            <div class="apple">
+                <img src="{% static 'level_4/apple.png' %}" alt="🍎" />
+                <img src="{% static 'level_4/apple.png' %}" alt="🍎" />
+                <img src="{% static 'level_4/apple.png' %}" alt="🍎" />
+            </div>
+        </div>
+    </div>
+    <div class="col-12 row game-options">
+        <div class="col-5 shadow my-2 ms-md-auto me-md-auto rounded-pill">
+            <i class="bi bi-square answer-mark"></i>
+            <div class="option-text mx-auto text-center" id="8">8 🍎</div>
+        </div>
+        <div class="col-5 shadow my-2 me-md-auto rounded-pill">
+            <i class="bi bi-square answer-mark"></i>
+            <div class="option-text mx-auto text-center" id="5">5 🍎</div>
+        </div>
+        <div class="col-5 shadow my-2 ms-md-auto me-md-auto rounded-pill">
+            <i class="bi bi-square answer-mark"></i>
+            <div class="option-text mx-auto text-center" id="7">
+                7 🍎
+            </div>
+        </div>
+        <div class="col-5 shadow my-2 me-md-auto rounded-pill">
+            <i class="bi bi-square answer-mark"></i>
+            <div class="option-text mx-auto text-center" id="6">
+                6 🍎
+            </div>
+        </div>
+    </div>
+</div>
+<div class="game-tutorial">
+    <div class="question col-12 row">
+        <div class="left-part col-5">
+            <div class="num">3</div>
+            <div class="apple">
+                <img src="{% static 'level_4/apple.png' %}" alt="🍎" />
+                <img src="{% static 'level_4/apple.png' %}" alt="🍎" />
+                <img src="{% static 'level_4/apple.png' %}" alt="🍎" />
+            </div>
+        </div>
+        <div class="operator col-2">
+            <i class="bi bi-plus"></i>
+        </div>
+        <div class="right-part col-5">
+            <div class="num">2</div>
+            <div class="apple">
+                <img src="{% static 'level_4/apple.png' %}" alt="🍎" />
+                <img src="{% static 'level_4/apple.png' %}" alt="🍎" />
+            </div>
+        </div>
+    </div>
+    <div class="col-12 row game-options">
+        <div class="col-5 shadow my-2 ms-md-auto me-md-auto rounded-pill">
+            <i class="bi bi-square answer-mark"></i>
+            <div class="option-text mx-auto text-center">8 🍎</div>
+        </div>
+        <div class="col-5 shadow my-2 me-md-auto rounded-pill demo-option">
+            <i class="bi bi-square answer-mark demo-right-answer"></i>
+            <div class="option-text mx-auto text-center">5 🍎</div>
+        </div>
+        <div class="col-5 shadow my-2 ms-md-auto me-md-auto rounded-pill">
+            <i class="bi bi-square answer-mark"></i>
+            <div class="option-text mx-auto text-center">7 🍎</div>
+        </div>
+        <div class="col-5 shadow my-2 me-md-auto rounded-pill">
+            <i class="bi bi-square answer-mark"></i>
+            <div class="option-text mx-auto text-center">6 🍎</div>
+        </div>
+    </div>
+    <i class="bi bi-hand-index-thumb-fill"></i>
+    <div
+        class="start-btn bg-primary text-center w-50 rounded-pill mx-auto mt-5 game-text-info"
+    >
+        Start
+    </div>
+</div>
+{% endblock %}
+<!-- Game Script -->
+{% block gamescript %}
+<script>
+    const ans = "7";
+    const game_body = document.querySelector(".game-body");
+    const options = game_body.querySelectorAll(".rounded-pill");
+    options.forEach((x) =>
+        x.addEventListener("click", () => {
+            if (x.querySelector(".option-text").id == ans) {
+                x.style.color = "lime";
+                let icon = x.querySelector("i");
+                icon.classList.remove("bi-square");
+                icon.classList.add("bi-check-square");
+                setTimeout(Celibrate, 500);
+            } else {
+                x.style.color = "red";
+                let icon = x.querySelector("i");
+                icon.classList.remove("bi-square");
+                icon.classList.add("bi-x-square");
+            }
+        })
+    );
+    // Tutorial Script
+    const tutorial = document.querySelector(".game-tutorial");
+    const start_btn = tutorial.querySelector(".start-btn");
+    start_btn.addEventListener("click", () => {
+        tutorial.classList.add("visually-hidden");
+        clearInterval();
+        clearTimeout();
+    });
+    function DemoMarkAnswer() {
+        const right_check = tutorial.querySelector(".demo-right-answer");
+        right_check.classList.remove("bi-square");
+        right_check.classList.add("bi-check-square");
+    }
+    function DemoNotMarkAnswer() {
+        const right_check = tutorial.querySelector(".demo-right-answer");
+        right_check.classList.remove("bi-check-square");
+        right_check.classList.add("bi-square");
+    }
+    setTimeout(DemoMarkAnswer, 1400);
+    setTimeout(DemoNotMarkAnswer, 2000);
+    setInterval(function () {
+        setTimeout(DemoMarkAnswer, 1400);
+        setTimeout(DemoNotMarkAnswer, 2000);
+    }, 2000);
+</script>
+{% endblock %}

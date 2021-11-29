@@ -1,0 +1,294 @@
+{% extends "games/index.html" %}
+<!-- Game Title -->
+{% block pagetitle %}{{ game_id }}. {{ game_name }}{% endblock %}
+<!-- Game Style -->
+{% block gamestyle %}
+<style>
+    .game-body {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+    }
+    .object-container {
+        height: 15%;
+        width: 15%;
+        margin-top: -15%;
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        animation: move-object-0 5s linear forwards;
+    }
+    @keyframes move-object-0 {
+        0% {
+            transform: rotate(180deg);
+            margin-top: -15%;
+            width: 15%;
+            height: 15%;
+        }
+        50% {
+            transform: rotate(157.23deg);
+            margin-left: 20%;
+            margin-top: 30%;
+        }
+        75% {
+            transform: rotat(180deg);
+            margin-left: 30%;
+            margin-top: 50%;
+        }
+        100% {
+            transform: rotate(220deg);
+            margin-left: 28%;
+            margin-top: 77%;
+            width: 5%;
+            height: 5%;
+        }
+    }
+    @keyframes move-object-1 {
+        0% {
+            transform: rotate(-40deg);
+            margin-top: 77%;
+            margin-left: 50%;
+        }
+        40% {
+            transform: rotate(0deg);
+            margin-top: 40%;
+            margin-left: 35%;
+        }
+        70% {
+            transform: rotate(30deg);
+            margin-top: 10%;
+            margin-left: 45%;
+            width: 5%;
+            height: 5%;
+        }
+        100% {
+            transform: rotate(0deg);
+            margin-top: -15%;
+            margin-left: 50%;
+            width: 10%;
+            height: 10%;
+        }
+    }
+    @keyframes move-object-2 {
+        0% {
+            transform: rotate(-90deg);
+            margin-top: 30%;
+            margin-left: 100%;
+        }
+        100% {
+            transform: rotate(-90deg);
+            margin-top: 30%;
+            margin-left: -15%;
+        }
+    }
+    @keyframes move-object-3 {
+        0% {
+            transform: rotate(180deg);
+            margin-top: -15%;
+            margin-left: 43%;
+        }
+        100% {
+            transform: rotate(180deg);
+            margin-top: 77%;
+            margin-left: 43%;
+        }
+    }
+    @keyframes move-object-4 {
+        0% {
+            transform: rotate(40deg);
+            margin-top: 50%;
+            margin-left: -15%;
+            width: 8%;
+            height: 8%;
+        }
+        50% {
+            transform: rotate(90deg);
+            margin-top: 30%;
+            margin-left: 40%;
+            width: 15%;
+            height: 15%;
+        }
+        100% {
+            transform: rotate(120deg);
+            margin-top: 40%;
+            margin-left: 100%;
+            width: 10%;
+            height: 10%;
+        }
+    }
+    .butterfly-body {
+        width: 10%;
+        height: 100%;
+    }
+    .butterfly-wing {
+        width: 45%;
+        height: 100%;
+        animation: squize 1s linear infinite;
+    }
+    .invert-img {
+        transform: rotateY(180deg);
+    }
+    @keyframes squize {
+        0% {
+            width: 40%;
+        }
+        50% {
+            width: 10%;
+        }
+    }
+    .game-tutorial {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+        background-color: rgba(255, 255, 255, 0.9);
+    }
+    .demo-catch {
+        animation: demo-movement 4s linear infinite;
+        width: 10%;
+    }
+    @keyframes demo-movement {
+        0% {
+            transform: rotate(90deg);
+            margin-left: -15%;
+            margin-top: 20%;
+        }
+        80%,
+        100% {
+            transform: rotate(90deg);
+            margin-left: 40%;
+            margin-top: 20%;
+        }
+    }
+    .bi-hand-index-thumb-fill {
+        position: absolute;
+        font-size: 3em;
+        color: tan;
+        z-index: 3;
+        animation: hand-gesture 4s linear infinite forwards;
+    }
+    @keyframes hand-gesture {
+        0%,
+        60% {
+            top: 45%;
+            left: 45%;
+        }
+        80%,
+        100% {
+            top: 30%;
+            left: 45%;
+        }
+    }
+    .start-btn {
+        font-family: cursive;
+        font-size: 2em;
+        color: white;
+        cursor: pointer;
+    }
+</style>
+{% endblock %}
+<!-- Game Body -->
+{% block gamebody %} {% load static %}
+<div class="game-body">
+    <img
+        src="{% static 'level_3/sunflowerfield.jpg' %}"
+        alt="sunflowerfield"
+        class="position-absolute w-100 h-100"
+    />
+    <div class="object-container">
+        <div class="butterfly-wing">
+            <img
+                src="{% static '/level_3/wing.png' %}"
+                alt="wing"
+                class="w-100 h-100"
+            />
+        </div>
+        <div class="butterfly-body">
+            <img
+                src="{% static '/level_3/body.png' %}"
+                alt="body"
+                class="w-100 h-100"
+            />
+        </div>
+        <div class="butterfly-wing">
+            <img
+                src="{% static '/level_3/wing.png' %}"
+                alt="wing"
+                class="w-100 h-100 invert-img"
+            />
+        </div>
+    </div>
+</div>
+<div class="game-tutorial">
+    <div class="col-md-12 w-100 h-50 position-relative overflow-hidden">
+        <div class="object-container demo-catch">
+            <div class="butterfly-wing">
+                <img
+                    src="{% static '/level_3/wing.png' %}"
+                    alt="wing"
+                    class="w-100 h-100"
+                />
+            </div>
+            <div class="butterfly-body">
+                <img
+                    src="{% static '/level_3/body.png' %}"
+                    alt="body"
+                    class="w-100 h-100"
+                />
+            </div>
+            <div class="butterfly-wing">
+                <img
+                    src="{% static '/level_3/wing.png' %}"
+                    alt="wing"
+                    class="w-100 h-100 invert-img"
+                />
+            </div>
+        </div>
+    </div>
+    <i class="bi bi-hand-index-thumb-fill"></i>
+    <div
+        class="start-btn bg-primary text-center w-50 rounded-pill mx-auto mt-5 game-text-info"
+    >
+        Start
+    </div>
+</div>
+{% endblock %}
+<!-- Game Script -->
+{% block gamescript %}
+<script>
+    const gameBody = document.querySelector(".game-body");
+    const butterfly = gameBody.querySelector(".object-container");
+    var x = 0;
+    function animationChange() {
+        var y = Math.floor(Math.random() * 10) >> 1;
+        while (y == x) y = Math.floor(Math.random() * 10) >> 1;
+        x = y;
+        this.style.animationName = "move-object-" + x;
+        this.style.animationDuration = "5s";
+        this.style.animationTimingFunction = "linear";
+        this.style.animationDirection = "forwards";
+        this.style.animationDelay = ".5s";
+        this.addEventListener("animationend", animationChange);
+        this.addEventListener("click", () => {
+            this.style.animationPlayState = "paused";
+        });
+    }
+    butterfly.addEventListener("click", () => {
+        butterfly.style.animationPlayState = "paused";
+        setTimeout(Celibrate, 500);
+    });
+    butterfly.addEventListener("animationend", animationChange);
+    // Tutorial Script
+    const tutorial = document.querySelector(".game-tutorial");
+    const start_btn = tutorial.querySelector(".start-btn");
+    start_btn.addEventListener("click", () => {
+        tutorial.classList.add("visually-hidden");
+    });
+</script>
+{% endblock %}

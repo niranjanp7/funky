@@ -9,7 +9,7 @@
             content="We describe why games are important factor in kid's growth. The Games which are good for enhancing the thinking capability are here."
         />
         <title>{% block pagetitle %} {% endblock %}</title>
-        <!-- for development 
+        <!-- for development -->
         {% load static %}
         <link
             href="{% static 'bootstrap/css/bootstrap.min.css' %}"
@@ -20,8 +20,8 @@
         <link
             href="{% static 'bootstrap/icons/bootstrap-icons.css' %}"
             rel="stylesheet"
-        />-->
-        <!-- CSS only -->
+        />
+        <!-- CSS 
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -31,7 +31,7 @@
         <link
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
-        />
+        />-->
         <style>
             #login_signup_btn {
                 color: #0a52bd;
@@ -41,12 +41,51 @@
                 z-index: 100;
                 font-family: cursive;
             }
+            .scrolToTopBtn {
+                position: fixed;
+                right: 50px;
+                bottom: 50px;
+                width: 1.5em;
+                height: 1.5em;
+                z-index: 3;
+                font-size: 2em;
+                font-weight: 100;
+                color: var(--bs-dark);
+                display: none;
+                align-items: center;
+                justify-content: center;
+            }
+            .scrolToTop {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: 1px solid black;
+                box-shadow: 0.1ch 0.1ch 0.1ch 0.05ch black inset,
+                    -0.1ch -0.1ch 0.1ch 0.05ch white inset;
+                border-radius: 30%;
+                background-color: lightgrey;
+                width: 100%;
+                height: 100%;
+                font-size: 1em;
+                text-shadow: var(--bs-light) 0 0 2px;
+                transition-duration: 0.5s;
+            }
+            .scrolToTop:hover {
+                transition-duration: 0.5s;
+                box-shadow: -0.1ch -0.1ch 0.1ch 0.05ch black inset,
+                    0.1ch 0.1ch 0.1ch 0.05ch white inset;
+            }
+            .scrolToTop:active {
+                transition-duration: 0.1s;
+                box-shadow: 0.1ch 0.1ch 0.1ch 0.05ch black inset,
+                    -0.1ch -0.1ch 0.1ch 0.05ch white inset;
+            }
         </style>
         {% block pagestyle %} {% endblock %}
     </head>
     <body data-spy="scroll" data-target="#nav_scroll_spy">
         <!-- Navigation Bar -->
-        <nav class="navbar bg-primary shadow">
+        <nav class="navbar bg-primary shadow" id="nav_bar">
             <div class="container-fluid">
                 <a class="navbar-brand bg-light px-2 rounded" href="/">
                     <img
@@ -58,6 +97,18 @@
                     />
                     FUNKY
                 </a>
+                {% if user.is_authenticated %}
+                <a href="http://127.0.0.1:8000/signup/userprofile">
+                    <button
+                        id="login_signup_btn"
+                        class="btn btn-sm fw-bolder"
+                        type="button"
+                    >
+                        <i class="bi bi-person-fill"></i>
+                        {{ user.first_name }} {{ user.last_name }}
+                    </button>
+                </a>
+                {% else %}
                 <form class="d-flex">
                     <button
                         id="login_signup_btn"
@@ -69,6 +120,7 @@
                         LogIn / SignUp
                     </button>
                 </form>
+                {% endif %}
             </div>
         </nav>
         <!-- LogIn Form -->
@@ -94,7 +146,12 @@
                         ></button>
                     </div>
                     <div class="modal-body">
-                        <form action="" class="row">
+                        <form
+                            action="http://127.0.0.1:8000/signup/userlogin"
+                            class="row"
+                            method="post"
+                        >
+                            {% csrf_token %}
                             <div
                                 class="col-3 fw-bolder ms-auto mt-auto mb-auto pb-2"
                             >
@@ -103,8 +160,8 @@
                             <div class="col-7 me-auto pb-2">
                                 <input
                                     type="text"
-                                    name=""
-                                    id=""
+                                    name="lusername"
+                                    id="username"
                                     class="form-control"
                                     maxlength="30"
                                     placeholder="akash123"
@@ -119,8 +176,8 @@
                             <div class="col-7 me-auto pb-2">
                                 <input
                                     type="tel"
-                                    name=""
-                                    id=""
+                                    name="lpassword"
+                                    id="password"
                                     class="form-control"
                                     maxlength="10"
                                     placeholder="7596002323"
@@ -182,7 +239,12 @@
                         ></button>
                     </div>
                     <div class="modal-body">
-                        <form class="row g-3">
+                        <form
+                            class="row g-3"
+                            action="http://127.0.0.1:8000/signup"
+                            method="post"
+                        >
+                            {% csrf_token %}
                             <div class="col-md-6">
                                 <label
                                     for="validationDefault01"
@@ -193,7 +255,7 @@
                                 <input
                                     type="text"
                                     class="form-control"
-                                    id="validationDefault01"
+                                    name="firstName"
                                     required
                                 />
                             </div>
@@ -207,23 +269,19 @@
                                 <input
                                     type="text"
                                     class="form-control"
-                                    id="validationDefault02"
+                                    name="lastName"
                                     required
                                 />
                             </div>
                             <div class="col-md-6">
-                                <label
-                                    for="validationDefaultUsername"
-                                    class="form-label"
-                                >
+                                <label for="username" class="form-label">
                                     Username
                                 </label>
                                 <div class="input-group">
                                     <input
                                         type="text"
                                         class="form-control"
-                                        id="validationDefaultUsername"
-                                        aria-describedby="inputGroupPrepend2"
+                                        name="username"
                                         required
                                     />
                                 </div>
@@ -238,7 +296,7 @@
                                 <input
                                     type="tel"
                                     class="form-control"
-                                    id="validationDefault03"
+                                    name="password"
                                     required
                                 />
                             </div>
@@ -274,19 +332,37 @@
                 </div>
             </div>
         </div>
+        <div class="scrolToTopBtn">
+            <div class="scrolToTop">
+                <a href="#nav_bar"><i class="bi bi-arrow-up"></i></a>
+            </div>
+        </div>
         {% block pagebody %} {% endblock %}
-        <!-- for development 
+        <!-- for development -->
         <script
             src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"
             integrity="sha384-kQtW33rZJAHjgefvhyyzcGF3C5TFyBQBA13V1RKPf4uH+bwyzQxZ6CmMZHmNBEfJ"
             crossorigin="anonymous"
-        ></script>-->
-        <!-- JavaScript Bundle with Popper-->
+        ></script>
+        <!-- JavaScript Bundle with Popper
         <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-kQtW33rZJAHjgefvhyyzcGF3C5TFyBQBA13V1RKPf4uH+bwyzQxZ6CmMZHmNBEfJ"
             crossorigin="anonymous"
-        ></script>
+        ></script>-->
+        <script>
+            const scrolToTopBtn = document.querySelector(".scrolToTopBtn");
+            window.onscroll = function () {
+                if (
+                    document.body.scrollTop > 500 ||
+                    document.documentElement.scrollTop > 500
+                ) {
+                    scrolToTopBtn.style.display = "flex";
+                } else {
+                    scrolToTopBtn.style.display = "none";
+                }
+            };
+        </script>
         {% block pagescript %} {% endblock %}
     </body>
 </html>
