@@ -37,7 +37,7 @@ def userlogin(request):
 def userlogout(request):
     if request.method == "POST":
         logout(request)
-        messages.success(request, "You have LogOut Successfully")
+        messages.success(request, "You have LogedOut Successfully")
         return redirect("userprofile")
     return redirect("/")
 

@@ -8,7 +8,8 @@
             name="description"
             content="We describe why games are important factor in kid's growth. The Games which are good for enhancing the thinking capability are here."
         />
-        <title>{% block pagetitle %} {% endblock %}</title>
+        <!-- <meta http-equiv="refresh" content="2"> -->
+        <title>{% block pagetitle %}{% endblock %}</title>
         <!-- for development -->
         {% load static %}
         <link
@@ -33,75 +34,153 @@
             href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
         />-->
         <style>
-            #login_signup_btn {
-                color: #0a52bd;
-                background-color: white;
+            :root{
+                --navbar-height: 3em;
+            }
+            body{
+                background-color: #6610f220;
+            }
+            .clip-parallogram{
+                clip-path: polygon(var(--navbar-height) 0, 100% 0, calc(100% - var(--navbar-height)) 100%, 0 100%);
+                min-width: calc(3 * var(--navbar-height));
+                height: 100%;
+            }
+            .background-blade:hover{
+                --blade-tiles: 0%;
+                --blade-background: rgba(102,16,242,0);
+                --blade-color: rgba(255,255,255,0.1);
+                background-position: 0 -.5px;
+                background-image: linear-gradient(-45deg, var(--blade-background) var(--blade-tiles), var(--blade-tiles),  var(--blade-color) calc(var(--blade-tiles) + 10%), calc(var(--blade-tiles) + 10%), var(--blade-background) calc(90% - var(--blade-tiles)), calc(90% - var(--blade-tiles)), var(--blade-color) calc(100% - var(--blade-tiles)), calc(100% - var(--blade-tiles)), var(--blade-background));
+                animation: slide-background-hover 0.5s linear forwards;
+            }
+            @keyframes slide-background-hover {
+                0%{
+                    --blade-tiles:-10%;
+                }
+                60%,
+                100%{
+                    --blade-tiles:39%;
+                }
+            }
+            @property --blade-tiles {
+                syntax: "<percentage>";
+                inherits: false;
+                initial-value:0%;
+            }
+            .user-action-btn {
+                color: white;
+                background-color: rgba(0, 0, 0, 0.2);
+                box-shadow: 0 0 2ch 0 rgba(255, 255, 255, 1) inset;
+            }
+            .user-action-btn:hover{
+                color: white;
+                text-shadow: 0 0 1ch cyan;
             }
             nav.navbar {
-                z-index: 100;
                 font-family: cursive;
+                background-color: var(--bs-indigo);
+                box-shadow: 0 0 2ch 0 rgba(255, 0, 255, 0.6) inset;
+                height: var(--navbar-height);
+                padding: 1px !important;
+                margin: 0 !important;
+            }
+            .navbar-brand{
+                background-color: rgba(0, 0, 0, 0.4);
+            }
+            .user-form{
+                position: relative;
+                width: calc(5 * var(--navbar-height) + 5px);
+            }
+            .user-form>button:last-child{
+                position: absolute;
+                right: 0;
+            }
+            .login-form{
+                font-family: cursive;
+                background-color: var(--bs-indigo);
+                box-shadow: 0 0 2ch 0 rgba(255, 255, 255, 0.6) inset;
+                color: var(--bs-light);
+            }
+            .form-close-btn{
+                color: white;
+                background: none;
+                opacity: 1;
+                font-size: 1.4em;
+            }
+            .form-close-btn:hover{
+                color: red;
+            }
+            .login-form-body{
+                background-color: rgba(255, 0, 255, 0.3);
+            }
+            .user-form-text{
+                background-color: rgba(161, 117, 117, 0) !important;
+                color: white;
+                border-width: 0;
+                border-radius: 0;
+                border-bottom: 0.2ch solid rgba(255, 255, 255, 0.5);
+            }
+            .user-form-text:-webkit-autofill,
+            .user-form-text:-webkit-autofill:hover, 
+            .user-form-text:-webkit-autofill:focus, 
+            .user-form-text:-webkit-autofill:active{
+                box-shadow: 0 0 0 30px rgba(148, 11, 246, 1) inset !important;
+                -webkit-box-shadow: 0 0 0 30px rgba(148, 11, 246, 1) inset !important;
+                -webkit-text-fill-color: white !important;
+            }
+            .user-form-text::placeholder{
+                color: var(--bs-light);
+                opacity: 0.4;
+            }
+            .user-form-text:focus{
+                box-shadow: none;
+                -webkit-box-shadow:none;
+                border-color: white;
+                color: white;
             }
             .scrolToTopBtn {
                 position: fixed;
                 right: 50px;
                 bottom: 50px;
-                width: 1.5em;
-                height: 1.5em;
+                width: 3em;
+                height: 3em;
                 z-index: 3;
-                font-size: 2em;
-                font-weight: 100;
-                color: var(--bs-dark);
                 display: none;
-                align-items: center;
-                justify-content: center;
             }
             .scrolToTop {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border: 1px solid black;
-                box-shadow: 0.1ch 0.1ch 0.1ch 0.05ch black inset,
-                    -0.1ch -0.1ch 0.1ch 0.05ch white inset;
-                border-radius: 30%;
-                background-color: lightgrey;
+                background-color: var(--bs-indigo);
+                border-left: 1ch double white;
+                border-right: 1ch double white;
+                box-shadow: 0 0 2ch 0 rgba(255, 0, 255, 0.6) inset;
                 width: 100%;
                 height: 100%;
-                font-size: 1em;
-                text-shadow: var(--bs-light) 0 0 2px;
+                clip-path: polygon(0 68%, 50% 35%, 100% 68%, 100% 100%, 50% 68%, 0 100%, 0 65%, 50% 32%, 100% 65%, 100% 32%, 50% 0, 0 32%);
+                opacity: 0.5;
                 transition-duration: 0.5s;
             }
-            .scrolToTop:hover {
+            .scrolToTopBtn:hover .scrolToTop{
+                box-shadow: 0 0 2ch 0 rgba(255, 255, 255, 0.6) inset;
+                opacity: 1;
                 transition-duration: 0.5s;
-                box-shadow: -0.1ch -0.1ch 0.1ch 0.05ch black inset,
-                    0.1ch 0.1ch 0.1ch 0.05ch white inset;
-            }
-            .scrolToTop:active {
-                transition-duration: 0.1s;
-                box-shadow: 0.1ch 0.1ch 0.1ch 0.05ch black inset,
-                    -0.1ch -0.1ch 0.1ch 0.05ch white inset;
             }
         </style>
         {% block pagestyle %} {% endblock %}
     </head>
     <body data-spy="scroll" data-target="#nav_scroll_spy">
         <!-- Navigation Bar -->
-        <nav class="navbar bg-primary shadow" id="nav_bar">
-            <div class="container-fluid">
-                <a class="navbar-brand bg-light px-2 rounded" href="/">
+        <nav class="navbar" id="nav_bar">
+            <div class="container-fluid px-0 h-100">
+                <a class="navbar-brand ps-3" href="/">
                     <img
-                        src="{% static 'home/favicon.ico' %}"
+                        src="{% static 'home/logo.svg' %}"
                         alt=""
-                        width="24"
-                        height="24"
-                        class="d-inline-block align-text-top"
+                        height="32"
                     />
-                    FUNKY
                 </a>
                 {% if user.is_authenticated %}
-                <a href="http://127.0.0.1:8000/signup/userprofile">
+                <a href="http://127.0.0.1:8000/signup/userprofile" class="h-100">
                     <button
-                        id="login_signup_btn"
-                        class="btn btn-sm fw-bolder"
+                        class="btn clip-parallogram background-blade user-action-btn px-5"
                         type="button"
                     >
                         <i class="bi bi-person-fill"></i>
@@ -109,15 +188,22 @@
                     </button>
                 </a>
                 {% else %}
-                <form class="d-flex">
+                <form class="user-form h-100">
                     <button
-                        id="login_signup_btn"
-                        class="btn btn-sm fw-bolder"
+                        class="btn clip-parallogram background-blade user-action-btn"
                         type="button"
                         data-bs-toggle="modal"
                         href="#toggle_login_form"
                     >
-                        LogIn / SignUp
+                        LogIn
+                    </button>
+                    <button
+                        class="btn clip-parallogram background-blade user-action-btn"
+                        type="button"
+                        data-bs-toggle="modal"
+                        href="#toggle_signup_form"
+                    >
+                        SignUp
                     </button>
                 </form>
                 {% endif %}
@@ -133,58 +219,60 @@
             aria-hidden="true"
         >
             <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
+                <div class="modal-content login-form">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalToggleLabel">
                             LogIn
                         </h5>
                         <button
                             type="button"
-                            class="btn-close"
+                            class="btn-close form-close-btn"
                             data-bs-dismiss="modal"
                             aria-label="Close"
-                        ></button>
+                        >
+                            <i class="bi bi-x-lg"></i>
+                        </button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body login-form-body">
                         <form
                             action="http://127.0.0.1:8000/signup/userlogin"
-                            class="row"
+                            class="row col-10 mx-auto"
                             method="post"
                         >
                             {% csrf_token %}
                             <div
-                                class="col-3 fw-bolder ms-auto mt-auto mb-auto pb-2"
+                                class="col-md-4 mt-auto pb-2"
                             >
                                 Username:
                             </div>
-                            <div class="col-7 me-auto pb-2">
+                            <div class="col-md-8 pb-2">
                                 <input
                                     type="text"
                                     name="lusername"
                                     id="username"
-                                    class="form-control"
+                                    class="form-control user-form-text"
                                     maxlength="30"
                                     placeholder="akash123"
                                     required
                                 />
                             </div>
                             <div
-                                class="col-3 fw-bolder ms-auto mt-auto mb-auto pb-2"
+                                class="col-md-4 mt-auto pb-2"
                             >
                                 Phone No.:
                             </div>
-                            <div class="col-7 me-auto pb-2">
+                            <div class="col-md-8 pb-2">
                                 <input
                                     type="tel"
                                     name="lpassword"
                                     id="password"
-                                    class="form-control"
+                                    class="form-control user-form-text"
                                     maxlength="10"
                                     placeholder="7596002323"
                                     required
                                 />
                             </div>
-                            <div class="col-3 fw-bolder ms-auto">
+                            <div class="col-6">
                                 <button
                                     type="submit"
                                     class="btn btn-success w-100"
@@ -192,7 +280,7 @@
                                     Enter
                                 </button>
                             </div>
-                            <div class="col-3 me-auto">
+                            <div class="col-6">
                                 <button
                                     type="reset"
                                     class="btn btn-danger w-100"
@@ -203,15 +291,17 @@
                         </form>
                     </div>
                     <div class="modal-footer fs-4">
-                        Hi! Visiting for the first time! Click
-                        <button
-                            id="signup_open_btn"
-                            class="btn btn-primary mx-auto"
-                            data-bs-target="#toggle_signup_form"
-                            data-bs-toggle="modal"
-                        >
-                            SignUp
-                        </button>
+                        <div class="footer-text text-center col-12">
+                            Hi! Visiting for the first time!<br />Click
+                            <button
+                                class="btn d-inline clip-parallogram background-blade user-action-btn"
+                                type="button"
+                                data-bs-toggle="modal"
+                                href="#toggle_signup_form"
+                            >
+                                SignUp
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -226,22 +316,24 @@
             aria-hidden="true"
         >
             <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
+                <div class="modal-content login-form">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalToggleLabel2">
                             SignUp
                         </h5>
                         <button
                             type="button"
-                            class="btn-close"
+                            class="btn-close form-close-btn"
                             data-bs-dismiss="modal"
                             aria-label="Close"
-                        ></button>
+                        >
+                            <i class="bi bi-x-lg"></i>
+                        </button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body login-form-body">
                         <form
                             class="row g-3"
-                            action="http://127.0.0.1:8000/signup"
+                            action="http://127.0.0.1:8000/signup/"
                             method="post"
                         >
                             {% csrf_token %}
@@ -254,8 +346,9 @@
                                 </label>
                                 <input
                                     type="text"
-                                    class="form-control"
+                                    class="form-control user-form-text"
                                     name="firstName"
+                                    placeholder="First Name"
                                     required
                                 />
                             </div>
@@ -268,8 +361,9 @@
                                 </label>
                                 <input
                                     type="text"
-                                    class="form-control"
+                                    class="form-control user-form-text"
                                     name="lastName"
+                                    placeholder="Last Name"
                                     required
                                 />
                             </div>
@@ -280,8 +374,9 @@
                                 <div class="input-group">
                                     <input
                                         type="text"
-                                        class="form-control"
+                                        class="form-control user-form-text"
                                         name="username"
+                                        placeholder="Username"
                                         required
                                     />
                                 </div>
@@ -295,8 +390,9 @@
                                 </label>
                                 <input
                                     type="tel"
-                                    class="form-control"
+                                    class="form-control user-form-text"
                                     name="password"
+                                    placeholder="Phone No."
                                     required
                                 />
                             </div>
@@ -305,7 +401,7 @@
                                     class="btn btn-success ms-auto w-100"
                                     type="submit"
                                 >
-                                    Submit Form
+                                    Submit
                                 </button>
                             </div>
                             <div class="col-6">
@@ -313,29 +409,31 @@
                                     class="btn btn-danger w-100"
                                     type="reset"
                                 >
-                                    Reset Form
+                                    Reset
                                 </button>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer fs-4">
-                        We already know each other, Click
-                        <button
-                            id="login_open_btn"
-                            class="btn btn-primary mx-auto"
-                            data-bs-target="#toggle_login_form"
-                            data-bs-toggle="modal"
-                        >
-                            LogIn
-                        </button>
+                        <div class="footer-text text-center col-12">
+                            We already know each other!<br />Click
+                            <button
+                                class="btn d-inline clip-parallogram background-blade user-action-btn"
+                                type="button"
+                                data-bs-toggle="modal"
+                                href="#toggle_login_form"
+                            >
+                                LogIn
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="scrolToTopBtn">
-            <div class="scrolToTop">
-                <a href="#nav_bar"><i class="bi bi-arrow-up"></i></a>
-            </div>
+            <a href="#nav_bar">
+                <div class="scrolToTop"></div>
+            </a>
         </div>
         {% block pagebody %} {% endblock %}
         <!-- for development -->
@@ -357,7 +455,7 @@
                     document.body.scrollTop > 500 ||
                     document.documentElement.scrollTop > 500
                 ) {
-                    scrolToTopBtn.style.display = "flex";
+                    scrolToTopBtn.style.display = "block";
                 } else {
                     scrolToTopBtn.style.display = "none";
                 }

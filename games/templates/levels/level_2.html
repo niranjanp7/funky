@@ -4,6 +4,9 @@
 <!-- Game Style -->
 {% block gamestyle %}
 <style>
+    .game-container{
+        background-color: white;
+    }
     .game-body > .game-options > div:hover {
         background-color: rgba(100, 198, 255, 0.2);
     }
@@ -33,12 +36,6 @@
             top: 50%;
             left: 20%;
         }
-    }
-    .start-btn {
-        font-family: cursive;
-        font-size: 2em;
-        color: white;
-        cursor: pointer;
     }
     .animal-image {
         width: 345px;
@@ -76,6 +73,30 @@
         display: inline-block;
         width: calc(100% - 42px);
     }
+    @media (max-width:767.5px){
+        .options{
+            width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .game-tutorial{
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        .animal-image{
+            width: 40%;
+        }
+    }
+    @media (max-width:450px){
+        .animal-image{
+            width: 80%;
+        }
+    }
+    @media (max-width:372px){
+        .animal-image{
+            width: 80%;
+        }
+    }
 </style>
 {% endblock %}
 <!-- Game Body -->
@@ -89,21 +110,21 @@
         />
     </figure>
     <div class="col-md-12 row game-options">
-        <div class="col-md-5 shadow my-2 ms-md-auto me-md-auto rounded-pill">
+        <div class="options col-md-5 shadow my-2 ms-md-auto me-md-auto rounded-pill">
             <i class="bi bi-square answer-mark"></i>
             <div class="option-text mx-auto text-center" id="cow">Cow</div>
         </div>
-        <div class="col-md-5 shadow my-2 me-md-auto rounded-pill">
+        <div class="options col-md-5 shadow my-2 me-md-auto rounded-pill">
             <i class="bi bi-square answer-mark"></i>
             <div class="option-text mx-auto text-center" id="rabit">Rabit</div>
         </div>
-        <div class="col-md-5 shadow my-2 ms-md-auto me-md-auto rounded-pill">
+        <div class="options col-md-5 shadow my-2 ms-md-auto me-md-auto rounded-pill">
             <i class="bi bi-square answer-mark"></i>
             <div class="option-text mx-auto text-center" id="elephant">
                 Elephant
             </div>
         </div>
-        <div class="col-md-5 shadow my-2 me-md-auto rounded-pill">
+        <div class="options col-md-5 shadow my-2 me-md-auto rounded-pill">
             <i class="bi bi-square answer-mark"></i>
             <div class="option-text mx-auto text-center" id="giraffe">
                 Giraffe
@@ -121,27 +142,27 @@
     </figure>
     <div class="col-md-12 row game-options">
         <div
-            class="col-md-5 shadow my-2 ms-md-auto me-md-auto rounded-pill demo-option"
+            class="options col-md-5 shadow my-2 ms-md-auto me-md-auto rounded-pill demo-option"
         >
             <i class="bi bi-square answer-mark demo-right-answer"></i>
             <div class="option-text mx-auto text-center">Cow</div>
         </div>
-        <div class="col-md-5 shadow my-2 me-md-auto rounded-pill">
+        <div class="options col-md-5 shadow my-2 me-md-auto rounded-pill">
             <i class="bi bi-square answer-mark"></i>
             <div class="option-text mx-auto text-center">Rabit</div>
         </div>
-        <div class="col-md-5 shadow my-2 ms-md-auto me-md-auto rounded-pill">
+        <div class="options col-md-5 shadow my-2 ms-md-auto me-md-auto rounded-pill">
             <i class="bi bi-square answer-mark"></i>
             <div class="option-text mx-auto text-center">Elephant</div>
         </div>
-        <div class="col-md-5 shadow my-2 me-md-auto rounded-pill">
+        <div class="options col-md-5 shadow my-2 me-md-auto rounded-pill">
             <i class="bi bi-square answer-mark"></i>
             <div class="option-text mx-auto text-center">Giraffe</div>
         </div>
     </div>
     <i class="bi bi-hand-index-thumb-fill"></i>
     <div
-        class="start-btn bg-primary text-center w-50 rounded-pill mx-auto mt-5 game-text-info"
+        class="start-btn water-wave-gradient text-center w-50 mx-auto"
     >
         Start
     </div>

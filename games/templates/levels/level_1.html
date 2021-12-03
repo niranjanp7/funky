@@ -12,6 +12,7 @@
         display: flex;
         flex-direction: column;
         height: 100%;
+        background-color: white;
     }
     .pick {
         cursor: pointer;
@@ -57,7 +58,7 @@
         justify-content: space-around;
         flex-direction: column;
     }
-    @media screen and (max-width: 768px) {
+    @media (max-width: 767.5px) {
         .pick,
         .place {
             flex-direction: column;
@@ -66,12 +67,12 @@
             flex-direction: row;
         }
     }
-    @media screen and (min-width: 1200px) {
+    @media (min-width: 1200px) {
         .img-holder-parent {
-            flex-direction: row;
+            flex-direction: column;
         }
     }
-    @media screen and (max-width: 372px) {
+    @media (max-width: 372px) {
         .img-holder-parent {
             flex-direction: column;
         }
@@ -151,24 +152,25 @@
         font-size: 3em;
         color: tan;
         z-index: 3;
+        left: 40%;
         animation: hand-gesture 2s linear infinite forwards;
     }
     @keyframes hand-gesture {
         0% {
             top: 25%;
-            left: 40%;
         }
         70%,
         100% {
             top: 75%;
-            left: 40%;
         }
     }
-    .start-btn {
-        font-family: cursive;
-        font-size: 2em;
-        color: white;
-        cursor: pointer;
+    @media (max-width: 767.5px){
+        .bi-hand-index-thumb-fill{
+            left: 48%
+        }
+        .demo{
+            padding-top: 12px;
+        }
     }
 </style>
 {% endblock %}
@@ -369,9 +371,9 @@
         <i class="bi bi-hand-index-thumb-fill"></i>
     </div>
     <div
-        class="start-btn bg-primary text-center w-50 rounded-pill mx-auto mt-5 game-text-info"
+        class="start-btn water-wave-gradient text-center w-50 mx-auto mt-5"
     >
-        Start
+        START
     </div>
 </div>
 {% endblock %}

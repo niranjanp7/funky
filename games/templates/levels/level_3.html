@@ -12,9 +12,9 @@
         cursor: pointer;
     }
     .object-container {
-        height: 15%;
-        width: 15%;
-        margin-top: -15%;
+        height: 4em;
+        width: 6em;
+        margin-top: -4em;
         position: absolute;
         display: flex;
         align-items: center;
@@ -26,8 +26,8 @@
         0% {
             transform: rotate(180deg);
             margin-top: -15%;
-            width: 15%;
-            height: 15%;
+            width: 6em;
+            height: 4em;
         }
         50% {
             transform: rotate(157.23deg);
@@ -150,20 +150,17 @@
         background-color: rgba(255, 255, 255, 0.9);
     }
     .demo-catch {
+        margin-top: 9em;
+        transform: rotate(90deg);
         animation: demo-movement 4s linear infinite;
-        width: 10%;
     }
     @keyframes demo-movement {
         0% {
-            transform: rotate(90deg);
-            margin-left: -15%;
-            margin-top: 20%;
+            margin-left: 0%;
         }
         80%,
         100% {
-            transform: rotate(90deg);
-            margin-left: 40%;
-            margin-top: 20%;
+            margin-left: 41%;
         }
     }
     .bi-hand-index-thumb-fill {
@@ -171,25 +168,18 @@
         font-size: 3em;
         color: tan;
         z-index: 3;
+        left: 45%;
         animation: hand-gesture 4s linear infinite forwards;
     }
     @keyframes hand-gesture {
         0%,
         60% {
-            top: 45%;
-            left: 45%;
+            top: 40%;
         }
         80%,
         100% {
-            top: 30%;
-            left: 45%;
+            top: 25%;
         }
-    }
-    .start-btn {
-        font-family: cursive;
-        font-size: 2em;
-        color: white;
-        cursor: pointer;
     }
 </style>
 {% endblock %}
@@ -253,7 +243,7 @@
     </div>
     <i class="bi bi-hand-index-thumb-fill"></i>
     <div
-        class="start-btn bg-primary text-center w-50 rounded-pill mx-auto mt-5 game-text-info"
+        class="start-btn water-wave-gradient text-center w-50 mx-auto mt-5"
     >
         Start
     </div>

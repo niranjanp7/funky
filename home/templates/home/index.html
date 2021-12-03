@@ -3,44 +3,120 @@
 <style>
     body {
         position: relative;
+        background-color: #6610f220;
     }
-    a[href="#our_team"] {
-        border-bottom-left-radius: inherit;
-        border-bottom-right-radius: inherit;
+    @media (max-width:992px){
+        .left-nav{
+            padding: 0 1px;
+        }
+        .right-content{
+            margin: 0 1px;
+        }
     }
-    .list-group-item:hover {
-        border-radius: inherit;
-        transition-duration: 0.5s;
+    .list-group-item{
+        border-color: var(--bs-indigo);
+        background-color: transparent;
+        transition-duration: 0.3s;
     }
-    .list-group-item {
-        transition-duration: 0.5s;
-    }
-    .list-group-item:hover,
-    #lets-play:hover {
-        font-weight: 700;
-        box-shadow: 0 0 0.5em 0.5em rgba(13, 110, 253, 0.2) !important;
-        z-index: 1;
-        transition-duration: 0.5s;
-    }
-    .list-group-item:hover > .menu-icon-animate,
-    .link_to_game_page:hover > div > .menu-icon-animate {
-        font-size: 1em;
-        margin-right: 1em;
-        transition-duration: 0.5s;
-    }
-    .list-group-item > .menu-icon-animate,
-    .link_to_game_page > div > .menu-icon-animate {
-        font-size: 0em;
-        transition-duration: 0.5s;
-    }
-    .right-content > * {
-        text-align: justify;
-        font-size: 1.2em;
-    }
-    #lets-play {
-        background-color: #0d6efd;
+    .list-group-item:hover{
+        background-color: var(--bs-indigo);
         color: white;
-        transition-duration: 0.5s;
+        text-shadow: 0 0 1ch white;
+        font-weight: 400;
+        transition-duration: 0.3s;
+    }
+    .lets-play {
+        --play-btn-height: 1.5em;
+        --play-gap: 0.5em;
+        background-color: #6610f2;
+        box-shadow: 0 0 2ch 0 rgba(124, 66, 124, 0.6) inset;
+        color: white;
+        display: flex;
+        position: relative;
+        overflow: hidden;
+        justify-content: center;
+        align-items: center;
+        height: calc(var(--play-btn-height) * 2);
+        clip-path: polygon(calc(var(--play-btn-height) + var(--play-gap) * 3) 100%,
+            calc(var(--play-gap) * 3) 50%,
+            calc(var(--play-btn-height) + var(--play-gap) * 3) 0,
+            calc(var(--play-btn-height) + var(--play-gap) * 2) 0,
+            calc(var(--play-gap) * 2) 50%,
+            calc(var(--play-btn-height) + var(--play-gap) * 2) 100%,
+            var(--play-btn-height) 100%,
+            0 50%,
+            var(--play-btn-height) 0,
+            calc(100% - var(--play-btn-height)) 0,
+            100% 50%,
+            calc(100% - var(--play-btn-height)) 100%,
+            calc(100% - var(--play-btn-height) - var(--play-gap) * 2) 100%,
+            calc(100% - var(--play-gap) * 2) 50%,
+            calc(100% - var(--play-btn-height) - var(--play-gap) * 2) 0,
+            calc(100% - var(--play-btn-height) - var(--play-gap) * 3) 0,
+            calc(100% - var(--play-gap) * 3) 50%,
+            calc(100% - var(--play-btn-height) - var(--play-gap) * 3) 100%);
+    }
+    .water-wave-gradient:hover{
+        --radius-radial: 30%;
+        --radius-width: 20%;
+        --radius-op: rgba(255, 255, 255, 0.7);
+        text-shadow: 0 0 1ch white;
+        background-image: radial-gradient(
+            rgba(0, 0, 0, 0) var(--radius-radial),
+            rgba(0, 0, 0, 0) var(--radius-radial),
+            var(--radius-op),
+            rgba(0, 0, 0, 0) calc(var(--radius-radial) + var(--radius-width) - 10%),
+            var(--radius-op),
+            rgba(0, 0, 0, 0) calc(var(--radius-radial) + var(--radius-width)),
+            calc(var(--radius-radial) + var(--radius-width)),
+            rgba(0, 0, 0, 0)
+        );
+        animation: water-wave 3s linear infinite forwards;
+    }
+    @property --radius-radial {
+        syntax: "<percentage>";
+        inherits: false;
+        initial-value: 0%;
+    }
+    @property --radius-width {
+        syntax: "<percentage>";
+        inherits: false;
+        initial-value: 0%;
+    }
+    @property --radius-op {
+        syntax: "<color>";
+        inherits: false;
+        initial-value: rgba(0, 0, 0, 0);
+    }
+    @keyframes water-wave {
+        0% {
+            --radius-radial: -40%;
+            --radius-width: 40%;
+            --radius-op: rgba(255,255,255,1);
+        }
+        80%,
+        100% {
+            --radius-radial: 100%;
+            --radius-width: 0%;
+            --radius-op: rgba(255,255,255,0);
+        }
+    }
+    .right-content{
+        border: 0.2ch solid var(--bs-indigo);
+        border-bottom-color: transparent;
+    }
+    .para-heding{
+        color: white;
+        background-color: var(--bs-indigo);
+        font-size: 1.5em;
+        padding: .3em 1em;
+        text-shadow: 0 0 1ch white;
+    }
+    .text-justify{
+        text-align: justify;
+    }
+    .our-team-detail{
+        background-color: var(--bs-indigo);
     }
 </style>
 {% endblock %} {% block pagebody %} {% load static %}
@@ -48,126 +124,114 @@
 <div class="row mx-auto">
     <!-- Left Menu List -->
     <div class="left-nav col-md-3">
-        <div class="col-12 sticky-top pt-3" id="nav_scroll_spy">
-            <div class="list-group shadow nav">
+        <div class="sticky-top pt-3">
+            <div class="list-group nav">
                 <a
-                    class="list-group-item list-group-item-action"
+                    class="list-group-item"
                     href="#why_games_are_important"
                 >
-                    <i class="bi-controller menu-icon-animate"></i>
-                    Why games are important?
+                    <div class="row ps-lg-2">
+                        <div class="col-auto d-flex p-0"><i class="bi-controller my-auto"></i></div>
+                        <div class="col d-inline-block">Why games are important?</div>
+                    </div>
                 </a>
                 <a
-                    class="list-group-item list-group-item-action"
+                    class="list-group-item"
                     href="#kids_education_with_games"
                 >
-                    <i class="bi-book menu-icon-animate"></i>
-                    Kid's Education with games
+                    <div class="row ps-lg-2">
+                        <div class="col-auto d-flex p-0"><i class="bi-book my-auto"></i></div>
+                        <div class="col d-inline-block">Kid's Education with games</div>
+                    </div>
                 </a>
                 <a
-                    class="list-group-item list-group-item-action"
+                    class="list-group-item"
                     href="#what_kind_of_games_to_play"
                 >
-                    <i class="bi-controller menu-icon-animate"></i>
-                    What kind of games to play?
+                    <div class="row ps-lg-2">
+                        <div class="col-auto d-flex p-0"><i class="bi-controller my-auto"></i></div>
+                        <div class="col d-inline-block">What kind of games to play?</div>
+                    </div>
                 </a>
                 <a
-                    class="list-group-item list-group-item-action"
+                    class="list-group-item"
                     href="#how_funky_can_help"
                 >
-                    <i class="bi-question-diamond menu-icon-animate"></i>
-                    How Funky can help!
+                    <div class="row ps-lg-2">
+                        <div class="col-auto d-flex p-0"><i class="bi-question-diamond my-auto"></i></div>
+                        <div class="col d-inline-block">How Funky can help!</div>
+                    </div>
                 </a>
                 <a
-                    class="list-group-item list-group-item-action"
+                    class="list-group-item"
                     href="#our_team"
                 >
-                    <i class="bi-people menu-icon-animate"></i>
-                    Our Team
-                </a>
-                <a
-                    class="list-group-item list-group-item-action visually-hidden"
-                    href="#do_not_edit"
-                    style="display: none;"
-                >
-                    This Link is hidden to avoid a bug
+                    <div class="row ps-lg-2">
+                        <div class="col-auto d-flex p-0"><i class="bi-people my-auto"></i></div>
+                        <div class="col d-inline-block">Our Team</div>
+                    </div>
                 </a>
             </div>
             <a href="/game/" class="link_to_game_page text-decoration-none">
-                <div
-                    class="col-12 my-3 text-center p-2 rounded-pill shadow"
-                    id="lets-play"
-                >
-                    <i
-                        class="bi bi-controller text-light menu-icon-animate"
-                    ></i>
+                <div class="col-12 mt-3 lets-play water-wave-gradient">
                     Let's Play
-                    <i class="bi-arrow-bar-right"></i>
                 </div>
             </a>
         </div>
     </div>
     <!-- Right all content-->
-    <div class="right-content col-md-7 pt-3">
-        <div
-            data-bs-spy="scroll"
-            data-bs-target="#nav_scroll_spy"
-            data-bs-offset="0"
-            tabindex="0"
-        >
-            <h2 id="why_games_are_important">
-                <i class="bi-controller me-2 ms-3"></i>
+    <div class="col-md-9 right-content-container mt-3 px-0">
+        <div class="right-content col-lg-10">
+            <h2 id="why_games_are_important" class="para-heding">
+                <i class="bi-controller"></i>
                 Why games are important?
             </h2>
-            <p class="col-md-12">
-                Games play a vital role in building students’ self-confidence.
-                As educational tools, games are constructive as they liven up
+            <p class="text-justify mx-3">
+                Games play a vital role in building students’ self-confidence. As educational tools, games are constructive as they liven up
                 teaching methods which are normally considered dull and boring
                 It helps students to possess a cool and pleasant temper
                 irrespective of their fluctuating moods. On the other hand,
                 games play a crucial role in developing a healthy brain of the
                 child.
-                <br />
+                <br /><br />
+                <strong>Following are some of the benefits of playing games to the
+                children:</strong>
+                <ul>
+                    <li>
+                        Games let children use their creativity while nurturing
+                        their imagination, physical, cognitive, emotional strength,
+                        and proficiency in skills
+                    </li>
+                    <li>
+                        It is because of the games that children at a very young age
+                        interact and engage in the world around them.
+                    </li>
+                    <li>
+                        Games offer children to create and explore a world that they
+                        can master, conquering their fears while practicing adult
+                        roles, sometimes in conjunction with other children or adult
+                        caregivers.
+                    </li>
+                </ul>
             </p>
-            <p class="col-md-12">
-                Following are some of the benefits of playing games to the
-                children:
-            </p>
-            <ul class="col-md-12">
-                <li>
-                    Games let children use their creativity while nurturing
-                    their imagination, physical, cognitive, emotional strength,
-                    and proficiency in skills
-                </li>
-                <li>
-                    It is because of the games that children at a very young age
-                    interact and engage in the world around them.
-                </li>
-                <li>
-                    Games offer children to create and explore a world that they
-                    can master, conquering their fears while practicing adult
-                    roles, sometimes in conjunction with other children or adult
-                    caregivers.
-                </li>
-            </ul>
-            <h2 id="kids_education_with_games" class="pt-3">
-                <i class="bi-book me-2 ms-3"></i>
+            <h2 id="kids_education_with_games" class="para-heding">
+                <i class="bi-book"></i>
                 Kid's Education with games
             </h2>
-            <p class="col-md-12">
+            <p class="text-justify mx-3">
                 Students learn through the process of playing the game. By
                 playing a game, students may be able to understand a new concept
                 or idea, take on a different perspective, or experiment with
                 different options or variables.
                 <br />
-                &nbsp;&nbsp;&nbsp;&nbsp; Through games, students can learn a
+                Through games, students can learn a
                 variety of important skills. There are countless skills that
                 students can develop through game playing such as critical
                 thinking skills, creativity, teamwork, and good sportsmanship.
                 <br />
-                The diagram below summarizes the role of games in education:
+                <strong>The diagram below summarizes the role of games in education:</strong>
             </p>
-            <div class="col-12 d-flex">
+            <div class="col-12 d-flex py-3">
                 <img
                     src="{% static 'home/role_of_games_in_education.png' %}"
                     alt="Role_of_Games_in_Education_of_Kida"
@@ -175,108 +239,108 @@
                     class="img-fluid mx-auto"
                 />
             </div>
-            <h2 id="what_kind_of_games_to_play" class="pt-3">
+            <h2 id="what_kind_of_games_to_play" class="para-heding">
                 <i class="bi-controller me-2 ms-3"></i>
                 What kind of games to play?
             </h2>
-            <p>
+            <p class="text-justify mx-3">
                 Kids should play the games which imparts educational values
                 along with fun.Below are some educational puzzles for kids:
+                <ol>
+                    <li>
+                        <strong>Crossword</strong>
+                        <br />
+                        <p class="text-justify me-3">
+                            Crosswords are the most popular games which are in
+                            widespread use over the world. They are mostly common in
+                            newspapers and magazines for general knowledge testing.
+                            A crossword is a word puzzle that has to be filled in by
+                            solving the clues that will be provided. Across and Down
+                            clues will be given to students on the most important
+                            events in History based on the topic that will be
+                            covered during face to face teaching and the students
+                            have to fill in the words or phrases by following the
+                            rules and within the given time limit. This does not
+                            only improve their knowledge of the subject but it also
+                            increases their visual literacy skills.
+                        </p>
+                        <div class="col-12 d-flex py-3">
+                            <img
+                                src="{% static 'home/crossword-puzzle-education.jpg' %}"
+                                alt="crossword_puzzles"
+                                width="400px"
+                                class="img-fluid mx-auto"
+                            />
+                        </div>
+                    </li>
+                    <li>
+                        <strong>Sliding Puzzle</strong>
+                        <br />
+                        <p class="text-justify me-3">
+                            A sliding puzzle is a tile puzzle that challenges a
+                            player to slide pieces along certain route to rearrange
+                            the image into its original format. As History is mostly
+                            about facts and details of the Presidents who have made
+                            an impact especially during the different war eras, this
+                            type of puzzle will help students revise and recall in a
+                            pictorial format. The comment box at the end of the page
+                            will allow students to discuss the symbolism of the
+                            image they would have solved.
+                        </p>
+                        <div class="col-12 d-flex py-3">
+                            <img
+                                src="{% static 'home/sliding-puzzle-eduction.gif' %}"
+                                alt="sliding_puzzle"
+                                width="300px"
+                                class="img-fluid mx-auto"
+                            />
+                        </div>
+                    </li>
+                    <li>
+                        <strong>Jigsaw puzzle</strong>
+                        <br />
+                        <p class="text-justify me-3">
+                            A jigsaw puzzle is a puzzle made of numerous pieces that
+                            are cut into different shapes and can be fit together to
+                            shape a picture. Developing a complete learner with
+                            visual, technology and knowledge literacy is the goal of
+                            using technology in education. Jigsaw puzzles are an
+                            ideal tool to teach students various skills while also
+                            teaching then the content.
+                        </p>
+                        <div class="col-12 d-flex py-3">
+                            <img
+                                src="{% static 'home/gigzaw-puzzle-example.jpg' %}"
+                                alt="jigsaw_puzzles"
+                                width="300px"
+                                class="img-fluid mx-auto"
+                            />
+                        </div>
+                    </li>
+                </ol>
             </p>
-            <ol>
-                <li>
-                    <strong>Crossword</strong>
-                    <br />
-                    <p>
-                        Crosswords are the most popular games which are in
-                        widespread use over the world. They are mostly common in
-                        newspapers and magazines for general knowledge testing.
-                        A crossword is a word puzzle that has to be filled in by
-                        solving the clues that will be provided. Across and Down
-                        clues will be given to students on the most important
-                        events in History based on the topic that will be
-                        covered during face to face teaching and the students
-                        have to fill in the words or phrases by following the
-                        rules and within the given time limit. This does not
-                        only improve their knowledge of the subject but it also
-                        increases their visual literacy skills.
-                    </p>
-                    <div class="col-12 d-flex">
-                        <img
-                            src="{% static 'home/crossword-puzzle-education.jpg' %}"
-                            alt="crossword_puzzles"
-                            width="400px"
-                            class="img-fluid mx-auto"
-                        />
-                    </div>
-                </li>
-                <li>
-                    <strong>Sliding Puzzle</strong>
-                    <br />
-                    <p>
-                        A sliding puzzle is a tile puzzle that challenges a
-                        player to slide pieces along certain route to rearrange
-                        the image into its original format. As History is mostly
-                        about facts and details of the Presidents who have made
-                        an impact especially during the different war eras, this
-                        type of puzzle will help students revise and recall in a
-                        pictorial format. The comment box at the end of the page
-                        will allow students to discuss the symbolism of the
-                        image they would have solved.
-                    </p>
-                    <div class="col-12 d-flex">
-                        <img
-                            src="{% static 'home/sliding-puzzle-eduction.gif' %}"
-                            alt="sliding_puzzle"
-                            width="300px"
-                            class="img-fluid mx-auto"
-                        />
-                    </div>
-                </li>
-                <li>
-                    <strong>Jigsaw puzzle</strong>
-                    <br />
-                    <p>
-                        A jigsaw puzzle is a puzzle made of numerous pieces that
-                        are cut into different shapes and can be fit together to
-                        shape a picture. Developing a complete learner with
-                        visual, technology and knowledge literacy is the goal of
-                        using technology in education. Jigsaw puzzles are an
-                        ideal tool to teach students various skills while also
-                        teaching then the content.
-                    </p>
-                    <div class="col-12 d-flex">
-                        <img
-                            src="{% static 'home/gigzaw-puzzle-example.jpg' %}"
-                            alt="jigsaw_puzzles"
-                            width="300px"
-                            class="img-fluid mx-auto"
-                        />
-                    </div>
-                </li>
-            </ol>
-            <h2 id="how_funky_can_help" class="pt-3">
-                <i class="bi-question-diamond me-2 ms-3"></i>
+            <h2 id="how_funky_can_help" class="para-heding">
+                <i class="bi-question-diamond"></i>
                 How Funky can help!
             </h2>
-            <p>
+            <p class="text-justify mx-3">
                 Funky is a web aplication where kids can learn with playing.It
                 consists of several puzzles and challenges of different
                 difficulty level from a child’s perspective. Solving a puzzle
                 will unlock the next.
                 <br />
-                &nbsp;&nbsp;&nbsp;&nbsp; It has account creation feature for
+                It has account creation feature for
                 kid’s and numbers of level unlocked will be saved for individual
                 account.
             </p>
         </div>
     </div>
-    <div class="bg-primary text-light py-3 col-12">
+    <div class="our-team-detail text-light py-1 col-12">
         <h2 id="our_team">
             <i class="bi-people me-2 ms-3"></i>
             Our Team
         </h2>
-        <div class="col-md-10 mx-auto">
+        <div class="col-lg-10 mx-auto">
             <div class="row fs-4">
                 <div class="row col-md-4 m-auto pt-1">
                     <div class="col-auto d-flex">

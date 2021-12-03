@@ -10,25 +10,31 @@
 <style>
     .game-list-items{
         list-style: none;
-        font-size: 1.5em;
         font-family: cursive;
     }
     .game-list-items:first-child{
         padding-top: 1em;
     }
     .level-name-link{
-        color: rgb(255, 0, 255);
+        color: white;
         text-decoration: none;
-        font-size: 1.2em;
+        font-size: 2em;
+    }
+    .level-name-link:hover{
+        color: white;
+        text-shadow: 0 0 1ch cyan;
     }
     .game-info-tile{
+        color: var(--bs-light);
         min-height: 5em;
-        background-image:linear-gradient(to left,rgba(13, 253, 193, 0.7), rgba(0,0,0,0));
-    }
-    .game-text-info{
+        padding: .5em;
+        background-color: var(--bs-indigo);
         --game-tile-background:0%;
-        background-image: linear-gradient(-45deg, rgba(0,0,0,0) var(--game-tile-background), var(--game-tile-background), rgba(0,0,0,0) var(--game-tile-background), rgba(255, 255, 255, 0.7) calc(var(--game-tile-background) + 5%), rgba(0,0,0,0) calc(var(--game-tile-background) + 10%), rgba(255, 255, 255, 0.7) calc(var(--game-tile-background) + 15%), rgba(0,0,0,0) calc(var(--game-tile-background) + 20%), calc(var(--game-tile-background) + 20%), rgba(0,0,0,0));
+        background-image: linear-gradient(-45deg, rgba(0,0,0,0) var(--game-tile-background), var(--game-tile-background), rgba(0,0,0,0) var(--game-tile-background), rgba(255, 255, 255, 0.1) calc(var(--game-tile-background) + 5%), rgba(0,0,0,0) calc(var(--game-tile-background) + 10%), rgba(255, 255, 255, 0.1) calc(var(--game-tile-background) + 15%), rgba(0,0,0,0) calc(var(--game-tile-background) + 20%), calc(var(--game-tile-background) + 20%), rgba(0,0,0,0));
         animation: slide-background 5s linear infinite forwards;
+    }
+    .game-info-tile:hover{
+        box-shadow: 0 0 2ch 0 rgba(255, 0, 255, 0.6) inset;
     }
     @keyframes slide-background {
         0%{
@@ -39,27 +45,23 @@
             --game-tile-background:-20%;
         }
     }
-    .game-text-info:hover{
-        background-color: rgba(0, 0, 0, 0.1);
-        background-image: linear-gradient(-65deg, rgba(0,0,0,0) var(--game-tile-background), var(--game-tile-background),  rgba(255, 255, 255, 0.3) calc(var(--game-tile-background) + 10%), calc(var(--game-tile-background) + 10%), rgba(0,0,0,0) calc(90% - var(--game-tile-background)), calc(90% - var(--game-tile-background)), rgba(255, 255, 255, 0.3) calc(100% - var(--game-tile-background)), calc(100% - var(--game-tile-background)), rgba(0,0,0,0));
-        animation: slide-background-hover 0.5s linear forwards;
+    .game-info-dp{
+        height: 100%;
+        width: 100%;
     }
-    @keyframes slide-background-hover {
-        0%{
-            --game-tile-background:-10%;
-        }
-        60%,
-        100%{
-            --game-tile-background:39%;
-        }
+    .game-text-info{
+        margin-left: .5em;
+        background-color: rgba(0, 0, 0, .4);
+        transition-duration: .3s;
+    }
+    .game-info-tile:hover>.game-text-info{
+        box-shadow: 0 0 1ch 0ch white inset;
+        transition-duration: .3s;
     }
     @property --game-tile-background {
         syntax: "<percentage>";
         inherits: false;
         initial-value:0%;
-    }
-    .game-container {
-        height: 92.2vh;
     }
 </style>
 {% if game_play %}
@@ -67,12 +69,13 @@
     body{
         overflow: hidden;
     }
+    .game-container,.level-tree {
+        height: calc(100vh - var(--navbar-height));
+    }
     .scrolToTopBtn{
         display:none;
     }
     .level-tree {
-        top: 7.8%;
-        max-height: 92.2%;
         overflow-y: auto;
         text-align: center;
         user-select: none;
@@ -81,19 +84,21 @@
     }
     .back-to-games{
         z-index: 2;
-        border-radius: 0.5em;
+        width: 100%;
+        background-color: var(--bs-indigo);
+        box-shadow: 0 0 2ch 0 rgba(255, 255, 255, 0.6) inset;
     }
     .level-link-container {
         display: inline-block;
         text-align: center;
         z-index: 1;
-        background-color: var(--bs-primary);
+        background-color: var(--bs-indigo);
         width: 3.6em;
         height: 3.6em;
-        border: 0.3em double lime;
+        border: 0.3em double #ffffff;
         border-radius: 50%;
     }
-    .level-link-container:hover {
+    .water-wave-gradient:hover {
         --radius-radial: 30%;
         --radius-width: 20%;
         --radius-op: rgba(255, 255, 255, 0.7);
@@ -101,8 +106,9 @@
             rgba(0, 0, 0, 0) var(--radius-radial),
             rgba(0, 0, 0, 0) var(--radius-radial),
             var(--radius-op),
-            rgba(0, 0, 0, 0)
-                calc(var(--radius-radial) + var(--radius-width)),
+            rgba(0, 0, 0, 0) calc(var(--radius-radial) + var(--radius-width) - 10%),
+            var(--radius-op),
+            rgba(0, 0, 0, 0) calc(var(--radius-radial) + var(--radius-width)),
             calc(var(--radius-radial) + var(--radius-width)),
             rgba(0, 0, 0, 0)
         );
@@ -155,17 +161,11 @@
         width: 0.2em;
         z-index: -1;
     }
-    .end-cover {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        height: 16.2em;
-        width: 100%;
-        background-image: linear-gradient(
-            to bottom,
-            rgba(255, 255, 255, 0.5),
-            rgba(255, 255, 255, 1)
-        );
+    .level-disappear,.level-disappear~.level-conector{
+        filter: blur(0.2rem);
+    }
+    .level-disappear>.level-link-container{
+        background-image: none !important;
     }
     .celibrate {
         position: absolute;
@@ -176,7 +176,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        z-index: 1;
+        z-index: 2;
         background-color: rgba(255, 255, 255, 0.8);
     }
     .hide-celibration {
@@ -186,7 +186,7 @@
     .congrats-dialog {
         width: 30%;
         height: 30%;
-        background-color: rgba(255, 255, 255, 0.5);
+        background-color: rgba(255, 255, 255, 0.4);
         border-radius: 1em;
         transform: scale(0);
     }
@@ -211,16 +211,25 @@
         width: 100%;
         height: 30%;
         font-size: 1.5em;
-        color: #007bff;
+        color: var(--bs-indigo);
     }
     .congrats-dialog > .next-game {
         height: 20%;
         border-bottom-left-radius: inherit;
         border-bottom-right-radius: inherit;
     }
+    .congrats-dialog>.next-game{
+        background-color: var(--bs-indigo);
+    }
     .congrats-dialog > .next-game > .next-game {
         font-size: 1.6em;
         color: white;
+    }
+    a.next-game:hover{
+        text-shadow: 0 0 1ch cyan;
+    }
+    .no-more-levels{
+        cursor: not-allowed;
     }
     .show-greeting {
         animation: greeting-popup 0.5s cubic-bezier(0.68, 1.5, 0.73, 1.5) 0.5s
@@ -231,6 +240,79 @@
             transform: scale(1);
         }
     }
+    @media (max-width:767.5px){
+        .back-to-games{
+            height: var(--navbar-height);
+            max-width: max-content;
+            position: sticky;
+            left: 0;
+        }
+        .game-container{
+            height: calc(100vh - var(--navbar-height) * 2);
+            margin-top: var(--navbar-height);
+        }
+        .level-tree{
+            width: 100%;
+            height: calc(var(--navbar-height) + 15px);
+            overflow-y: hidden;
+            overflow-x: auto;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            flex-direction: column;
+        }
+        .level-tree>div{
+            display: inline-block;
+        }
+        .level-link-container{
+            margin: 0;
+            width: var(--navbar-height);
+            height: var(--navbar-height);
+        }
+        .level-link-container>.level-link{
+            font-size: 1.5em;
+            display: block;
+        }
+        .level-conector {
+            background-color: chartreuse;
+            width: 2em;
+            height: 0.2em;
+            margin-top: 22px;
+        }
+        .congrats-dialog{
+            width: 80%;
+        }
+    }
+    .start-btn {
+        --play-btn-height: 0.7em;
+        --play-gap: 0.2em;
+        background-color: #6610f2;
+        box-shadow: 0 0 2ch 0 rgba(124, 66, 124, 0.6) inset;
+        color: white;
+        font-family: cursive;
+        font-size: 2em;
+        min-width: calc(var(--play-btn-height) * 8);
+        cursor: pointer;
+        height: calc(var(--play-btn-height) * 2);
+        clip-path: polygon(calc(var(--play-btn-height) + var(--play-gap) * 3) 100%,
+            calc(var(--play-gap) * 3) 50%,
+            calc(var(--play-btn-height) + var(--play-gap) * 3) 0,
+            calc(var(--play-btn-height) + var(--play-gap) * 2) 0,
+            calc(var(--play-gap) * 2) 50%,
+            calc(var(--play-btn-height) + var(--play-gap) * 2) 100%,
+            var(--play-btn-height) 100%,
+            0 50%,
+            var(--play-btn-height) 0,
+            calc(100% - var(--play-btn-height)) 0,
+            100% 50%,
+            calc(100% - var(--play-btn-height)) 100%,
+            calc(100% - var(--play-btn-height) - var(--play-gap) * 2) 100%,
+            calc(100% - var(--play-gap) * 2) 50%,
+            calc(100% - var(--play-btn-height) - var(--play-gap) * 2) 0,
+            calc(100% - var(--play-btn-height) - var(--play-gap) * 3) 0,
+            calc(100% - var(--play-gap) * 3) 50%,
+            calc(100% - var(--play-btn-height) - var(--play-gap) * 3) 100%);
+    }
 </style>
 {% endif %}
 {% block gamestyle %} {% endblock %} {% endblock %}
@@ -240,91 +322,97 @@
 
 <!-- If game level index is entered -->
 {% if game_play %}
-<div class="col-2 position-absolute level-tree px-md-4 pt-2">
-    <div class="back-to-games sticky-top bg-primary text-light shadow mb-2">
+<div class="col-2 position-absolute level-tree">
+    <div class="back-to-games sticky-top text-light mb-md-2">
         <a href="../" class="level-link">
-            <i class="bi bi-arrow-bar-left"></i>
+            <i class="bi bi-list"></i>
             Games</a>
     </div>
     {% for i in game %}
     <div class="level-number">
-        <div class="level-link-container {% if i.id == game_id %}bg-success{% endif %}">
+        <div class="level-link-container {% if i.id == game_id %}bg-success{% endif %} water-wave-gradient">
             {% if i.id == game_id %}
             <a href="" class="level-link isDisabled">
-                {% else %}
-                <a href="../{{ i.id }}" class="level-link">
-                {% endif %} {{ i.id }}
+                {{ i.id }}
             </a>
+            {% else %}
+            <a href="../{{ i.id }}" class="level-link">
+                {{ i.id }}
+            </a>
+            {% endif %}
         </div>
     </div>
-    <div class="level-conector mx-auto"></div>
+    <div class="level-conector mx-md-auto"></div>
     {% endfor %}
-    <div class="level-disappear position-relative">
-        <div class="level-number">
-            <div class="level-link-container">
-                <a href="#" class="level-link">&nbsp;</a>
-            </div>
-        </div>
-        <div class="level-conector mx-auto"></div>
-        <div class="level-number">
-            <div class="level-link-container">
-                <a href="#" class="level-link">&nbsp;</a>
-            </div>
-        </div>
-        <div class="level-conector mx-auto"></div>
-        <div class="end-cover"></div>
+    <div class="level-number level-disappear">
+        <div class="level-link-container"></div>
     </div>
+    <div class="level-conector mx-md-auto"></div>
+    <div class="level-number level-disappear">
+        <div class="level-link-container"></div>
+    </div>
+    <div class="level-conector mx-md-auto"></div>
 </div>
 {% endif %}
-<div class="game-container container col-md-8 position-relative">
-    {% if game_play %} {% block gamebody %} {% endblock %}
-    <div class="celibrate hide-celibration">
-        <div class="congrats-dialog shadow">
-            <div class="cup">🏆</div>
-            <div class="greeting">WoW, You did it!</div>
-            <div class="next-game bg-primary">
-                {% if next_game %}
-                <a
-                    href="../{{ next_game }}"
-                    class="next-game text-decoration-none d-block"
-                >
-                    Let's Go
-                    <i class="bi bi-arrow-bar-right"></i>
-                </a>
-                {% else %}
-                <a
-                    href="javascript:void(0)"
-                    class="next-game text-decoration-none d-block"
-                >
-                    That's all for now!
-                </a>
-                {% endif %}
+<div class="game-container-parent col-md-10 ms-auto">
+    <div class="game-container col-lg-9 mr-auto position-relative">
+        {% if game_play %} {% block gamebody %} {% endblock %}
+        <div class="celibrate hide-celibration">
+            <div class="congrats-dialog shadow">
+                <div class="cup">🏆</div>
+                <div class="greeting">WoW, You did it!</div>
+                <div class="next-game">
+                    {% if next_game %}
+                    <a
+                        href="../{{ next_game }}"
+                        class="next-game text-decoration-none d-block"
+                    >
+                        Let's Go
+                        <i class="bi bi-arrow-bar-right"></i>
+                    </a>
+                    {% else %}
+                    <a
+                        href=""
+                        class="next-game text-decoration-none d-block no-more-levels"
+                    >
+                        That's all for now!
+                    </a>
+                    {% endif %}
+                </div>
             </div>
         </div>
-    </div>
-    <!-- If only visiting the game page -->
-    {% else %}
-    <ul>
-        {% for i in game %}
-        {% load static %}
-        {% static "" as baseUrl %}
-        <li class="game-list-items">
-            <div class="game-info-tile col-12 row mb-2 rounded">
-                <div class="game-img-thumb col-3 p-0 rounded">
-                    <img src="{{ baseUrl }}level_{{ i.id }}/example.jpg" alt="{{ i.id }} {{ i.game_name }}" style="height: 100%; width: 100%;" class="rounded">
-                </div>
-                <div class="game-text-info col-9 rounded">
-                    <div class="game-title-link">
-                        <a href="{{ i.id }}" class="level-name-link">{{ i.id }}. {{ i.game_name }}</a>
+        {% else %}
+        <!-- If only visiting the game page -->
+        <ul>
+            {% for i in game %}
+            {% load static %}
+            {% static "" as baseUrl %}
+            <li class="game-list-items">
+                <div class="game-info-tile col-12 row mb-1 rounded">
+                    <div class="game-img-thumb col-3 p-0 rounded">
+                        <img src="{{ baseUrl }}level_{{ i.id }}/example.jpg" alt="{{ i.id }} {{ i.game_name }}" class="rounded game-info-dp">
                     </div>
-                    <div class="game-description">
-                        {{ i.game_description }}</div>
+                    <div class="game-text-info col rounded">
+                        <div class="game-title-link">
+                            <a href="{{ i.id }}" class="level-name-link">{{ i.id }}. {{ i.game_name }}</a>
+                        </div>
+                        <div class="game-description">{{ i.game_description }}</div>
+                    </div>
                 </div>
-            </div>
-        </li>
-        {% endfor %}
-    </ul>
-    {% endif %}
+            </li>
+            {% endfor %}
+            <li class="game-list-items">
+                <div class="game-info-tile col-12 row mb-1 rounded">
+                    <div class="game-text-info col rounded">
+                        <div class="game-title-link">
+                            <span class="level-name-link text-center d-block w-100">Comming Soon</span>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}
 
