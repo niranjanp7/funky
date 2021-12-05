@@ -63,6 +63,28 @@
         inherits: false;
         initial-value:0%;
     }
+    .lockedLevel{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+    }
+    .lockedLevel>.lockIcon{
+        width: 90%;
+        height: 80%;
+        font-size: 3em;
+        display: inherit;
+        justify-content: inherit;
+        align-items: inherit;
+        background-color: rgba(0, 0, 0, .4);
+        box-shadow: 0 0 3ch 0 white inset, 0 0 2ch 0 white;
+        opacity: 0.6;
+    }
 </style>
 {% if game_play %}
 <style>
@@ -166,6 +188,18 @@
     }
     .level-disappear>.level-link-container{
         background-image: none !important;
+    }
+    .lockedLevel>.lockIcon{
+        width: 100%;
+        height: 100%;
+        font-size: 2em;
+        display: inherit;
+        justify-content: inherit;
+        align-items: inherit;
+        background-color: rgba(0, 0, 0, .4);
+        box-shadow: 0 0 3ch 0 white inset;
+        border-radius: 50%;
+        opacity: 0.9;
     }
     .celibrate {
         position: absolute;
@@ -330,7 +364,7 @@
     </div>
     {% for i in game %}
     <div class="level-number">
-        <div class="level-link-container {% if i.id == game_id %}bg-success{% endif %} water-wave-gradient">
+        <div class="level-link-container {% if i.id == game_id %}bg-success{% endif %} water-wave-gradient position-relative">
             {% if i.id == game_id %}
             <a href="" class="level-link isDisabled">
                 {{ i.id }}
@@ -339,6 +373,13 @@
             <a href="../{{ i.id }}" class="level-link">
                 {{ i.id }}
             </a>
+            {% endif %}
+            {% if i.id > level|add:1 %}
+            <div class="lockedLevel">
+                <div class="lockIcon">
+                    <i class="bi bi-lock-fill"></i>
+                </div>
+            </div>
             {% endif %}
         </div>
     </div>
@@ -357,6 +398,11 @@
 <div class="game-container-parent col-md-10 ms-auto">
     <div class="game-container col-lg-9 mr-auto position-relative">
         {% if game_play %} {% block gamebody %} {% endblock %}
+        <form action="http://127.0.0.1:8000/signup/levelCleared" method="post" class="visually-hidden">
+            {% csrf_token %}
+            <input type="number" name="currentLevel" value="{{ game_id }}">
+            <button type="submit" class="levelClearedRequest"></button>
+        </form>
         <div class="celibrate hide-celibration">
             <div class="congrats-dialog shadow">
                 <div class="cup">🏆</div>
@@ -387,7 +433,7 @@
             {% for i in game %}
             {% load static %}
             {% static "" as baseUrl %}
-            <li class="game-list-items">
+            <li class="game-list-items position-relative">
                 <div class="game-info-tile col-12 row mb-1 rounded">
                     <div class="game-img-thumb col-3 p-0 rounded">
                         <img src="{{ baseUrl }}level_{{ i.id }}/example.jpg" alt="{{ i.id }} {{ i.game_name }}" class="rounded game-info-dp">
@@ -399,6 +445,13 @@
                         <div class="game-description">{{ i.game_description }}</div>
                     </div>
                 </div>
+                {% if i.id > level|add:1 %}
+                <div class="lockedLevel">
+                    <div class="lockIcon">
+                        <i class="bi bi-lock-fill"></i>
+                    </div>
+                </div>
+                {% endif %}
             </li>
             {% endfor %}
             <li class="game-list-items">
@@ -421,11 +474,13 @@
 {% if game_play %}
 <script>
     function Celibrate() {
-        mainbody = document.querySelector(".celibrate");
+        let mainbody = document.querySelector(".celibrate");
         mainbody.classList.remove("hide-celibration");
         mainbody
             .querySelector(".congrats-dialog")
             .classList.add("show-greeting");
+        document.querySelector(".levelClearedRequest").click();
+
     }
 </script>
 {% endif %}

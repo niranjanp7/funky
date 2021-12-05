@@ -87,6 +87,12 @@
             .navbar-brand{
                 background-color: rgba(0, 0, 0, 0.4);
             }
+            .message-success{
+                background-color: green;
+            }
+            .message-error{
+                background-color: red;
+            }
             .user-form{
                 position: relative;
                 width: calc(5 * var(--navbar-height) + 5px);
@@ -209,6 +215,13 @@
                 {% endif %}
             </div>
         </nav>
+        {% if messages %}
+        {% for message in messages %}
+        <div class="col-12 text-light text-center fs-4 message-{{ message.tags }}">
+             {{ message }} 
+        </div>
+        {% endfor %}
+        {% endif %}
         <!-- LogIn Form -->
         <div
             class="modal fade"
